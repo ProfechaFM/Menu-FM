@@ -141,6 +141,8 @@ main { padding-bottom: 120px; }
   .photo { grid-column: 1; grid-row: 1; aspect-ratio: 4 / 3; margin: 0; }
 }
 
+.grp > .photo.grp-photo { margin: 12px 0 0; aspect-ratio: 16 / 10; }
+@media (min-width: 600px) { .grp > .photo.grp-photo { aspect-ratio: 21 / 9; } }
 .empty { padding: 40px 0; text-align: center; color: var(--muted); }
 
 /* ---------- Pie ---------- */
@@ -264,7 +266,7 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
   </div>
   <div class="facts">
     <span>Precios con 13 % de IVA incluido</span>
-    <span>No incluyen el 10 % de servicio en mesa</span>
+    <span>El 10 % de servicio en mesa se calcula sobre el precio sin IVA</span>
   </div>
   <div class="search">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -286,9 +288,9 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
   <h2>La Fiesta del Maíz</h2>
   <div class="contact">
     <a href="tel:+50624875757">Tel. 2487-5757</a>
-    <span>Facebook: La Fiesta del Maíz</span>
+    <a href="https://www.facebook.com/fiestadelmaizcr" target="_blank" rel="noopener">Facebook: La Fiesta del Maíz</a>
   </div>
-  <p>Precios en colones costarricenses. Incluyen el 13 % de impuesto al valor agregado y no incluyen el 10 % de servicio en mesa.</p>
+  <p>Precios en colones costarricenses. Incluyen el 13 % de impuesto al valor agregado y no incluyen el 10 % de servicio en mesa, que se calcula sobre el precio sin impuesto.</p>
   <p>Las fotografías son de platillos preparados en nuestra cocina y se muestran como referencia. La presentación puede variar de un plato a otro.</p>
   <p>Algunos platillos están disponibles solo en ciertos días u horarios; están señalados en el menú. Venta de bebidas alcohólicas solo a mayores de 18 años.</p>
   <p class="credit">Menú digital por Lic. Gabriel Salas R.</p>
@@ -372,7 +374,7 @@ const MENU = [
   ]},
   { id: 'tipicos', name: 'Típicos', note: 'Los acompañamientos de natilla, queso y mantequilla se ofrecen como extras.', groups: [
     { t: 'Chorreadas', star: true, d: 'Elaboradas con masa de maíz y cocinadas al momento. Una de las favoritas de nuestra casa.', items: [
-      { n: 'Chorreada dulce o salada', p: 2000, img: 'chorreada', imgAlt: 'Chorreada dorada con natilla', op: [['Chorreada', ['Dulce', 'Salada']]] },
+      { n: 'Chorreada dulce o salada', p: 2000, img: 'chorreada', imgAlt: 'Chorreada con natilla', op: [['Chorreada', ['Dulce', 'Salada']]] },
       { n: 'Chorreada a la plancha', p: 3500 },
       { n: 'Promoción de chorreadas (6 uds.)', p: 10000 },
     ]},
@@ -386,7 +388,7 @@ const MENU = [
       { n: 'Promoción (6 uds.)', p: 5000 },
     ]},
     { t: 'Tortillas caseras', d: 'Tortillas de masa de maíz con queso.', items: [
-      { n: 'Tortilla de queso', p: 2000 }, { n: 'Tortilla queso fundido', p: 3500 },
+      { n: 'Tortilla de queso', p: 2000, img: 'tortilla-queso', imgAlt: 'Tortilla de queso dorada con natilla' }, { n: 'Tortilla queso fundido', p: 3500 },
       { n: 'Promo tortillas de queso (6)', p: 10000 }, { n: 'Prensada de queso', p: 2000 },
     ]},
     { t: 'Tamal de elote', pre: 'Tamal de elote', d: 'Masa de maíz envuelta en tusa, cocinada a la manera tradicional.', items: [
@@ -395,11 +397,11 @@ const MENU = [
   ]},
   { id: 'gallos', name: 'Gallitos y antojos', groups: [
     { t: 'Gallos', pre: 'Gallo', d: 'Tortillas caseras recién hechas, acompañadas con la proteína de tu elección.', items: [
-      { n: 'Lengua en salsa', p: 5000, star: true }, { n: 'Carne en salsa', p: 3500 },
+      { n: 'Lengua en salsa', p: 5000, star: true, img: 'gallo-lengua', imgAlt: 'Gallo de lengua en salsa con tortilla casera' }, { n: 'Carne en salsa', p: 3500 },
       { n: 'Arroz con maíz y pollo', p: 2000 }, { n: 'Chorizo', p: 2500 },
       { n: 'Salchichón', p: 2500 }, { n: 'Picadillo de papa', p: 2000 },
     ]},
-    { t: 'Empanadas', pre: 'Empanada', d: 'Empanadas de masa de maíz rellenas a tu elección. Crujientes por fuera y llenas de sabor por dentro.', items: [
+    { t: 'Empanadas', pre: 'Empanada', img: 'empanada', imgAlt: 'Empanada de maíz con ensalada de repollo', d: 'Empanadas de masa de maíz rellenas a tu elección. Crujientes por fuera y llenas de sabor por dentro.', items: [
       { n: 'Frijol con queso', p: 2500 }, { n: 'Carne', p: 2500 }, { n: 'Queso', p: 2500 },
     ]},
     { t: 'Frijoles de la casa', pre: 'Frijoles de la casa', d: 'Frijoles molidos sabrosos y con ese sabor casero que no falla, acompañados con tortillas tostadas.', items: [
@@ -417,7 +419,7 @@ const MENU = [
   ]},
   { id: 'postres', name: 'Postres', groups: [
     { t: 'Pan de la casa', d: 'Panes horneados artesanalmente en nuestra cocina. Cada uno con ese sabor casero que los hace irresistibles.', items: [
-      { n: 'Pan de yuca', p: 1000, tag: 'Fin de semana' }, { n: 'Pan de elote', p: 1000 },
+      { n: 'Pan de yuca', p: 1000, tag: 'Fin de semana' }, { n: 'Pan de elote', p: 1000, img: 'pan-elote', imgAlt: 'Porción de pan de elote' },
       { n: 'Torta de arroz', p: 1000 }, { n: 'Promoción (6 uds.)', o: 'Pan de la casa · Promoción (6 uds.)', p: 5000 },
     ]},
     { t: 'Arroz con leche', pre: 'Arroz con leche', d: 'Cremoso arroz con leche preparado al estilo casero. Uno de los favoritos.', items: [
@@ -554,6 +556,7 @@ function render() {
         return `<div class="grp">
           ${g.t ? `<h3 class="pill">${g.star ? '<span class="star" aria-hidden="true">★</span>' : ''}${esc(g.t)}</h3>` : ''}
           ${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : ''}
+          ${g.img ? `<div class="photo grp-photo"><img src="img/${g.img}.webp" alt="${esc(g.imgAlt || g.t)}" loading="lazy" decoding="async"><span class="ref-tag">Imagen de referencia</span></div>` : ''}
           <div class="items${compact ? ' compact' : ''}">${g.items.map(itemHTML).join('')}</div>
         </div>`;
       }).join('')}
@@ -573,7 +576,8 @@ function save() { try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now()
 
 const subtotal = () => cart.reduce((a, l) => a + l.price * l.qty, 0);
 const units = () => cart.reduce((a, l) => a + l.qty, 0);
-const service = () => mode === 'aqui' ? Math.round(subtotal() * 0.10) : 0;
+/* Servicio: 10 % sobre el precio sin IVA (igual que Soft Restaurant), redondeado a los ₡5 más cercanos */
+const service = () => mode === 'aqui' ? Math.round(subtotal() / 1.13 * 0.10 / 5) * 5 : 0;
 
 function addLine({ id, sub = '', note = '', price, qty = 1 }) {
   const it = ITEMS[id];
@@ -696,7 +700,7 @@ function renderOrder() {
     </ul>
     <div class="totals">
       <div class="muted"><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
-      ${mode === 'aqui' ? `<div class="muted"><span>Servicio en mesa (10 %)</span><span>${money(srv)}</span></div>` : ''}
+      ${mode === 'aqui' ? `<div class="muted"><span>Servicio en mesa (10 % sin IVA)</span><span>${money(srv)}</span></div>` : ''}
       <div class="grand"><span>Total estimado</span><span>${money(sub + srv)}</span></div>
       <div class="muted" style="font-size:.85rem">El monto final lo confirma la caja.</div>
     </div>
@@ -740,7 +744,7 @@ function showWaiter() {
     <ul class="w-list">${cart.map(l => `<li><span class="w-qty">${l.qty}</span><span class="w-name">${esc(l.label)}</span>${l.sub ? `<span class="w-sub">${esc(l.sub)}</span>` : ''}${l.note ? `<span class="w-note">Nota: ${esc(l.note)}</span>` : ''}</li>`).join('')}</ul>
     <div class="w-total">
       <div><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
-      ${srv ? `<div><span>Servicio 10 %</span><span>${money(srv)}</span></div>` : ''}
+      ${srv ? `<div><span>Servicio 10 % (sin IVA)</span><span>${money(srv)}</span></div>` : ''}
       <div class="grand"><span>Total estimado</span><span>${money(sub + srv)}</span></div>
     </div>
     <div class="w-actions"><button class="primary" type="button" data-back>Volver a mi pedido</button></div>
