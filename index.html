@@ -371,7 +371,7 @@ const MENU = [
   ]},
   { id: 'fuertes', name: 'Platos fuertes', groups: [
     { t: 'Casados', items: [
-      { n: 'Casado tradicional', p: 5500, img: 'casado', imgAlt: 'Casado con carne en salsa, arroz, frijoles, ensalada y tortillas, con refresco natural', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre. Elegí la proteína de tu preferencia.', op: [PROT] },
+      { n: 'Casado tradicional', p: 5500, img: 'casado', imgAlt: 'Casado con carne en salsa, arroz, frijoles, ensalada, tortillas y refresco natural', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre. Elegí la proteína de tu preferencia.', op: [PROT] },
       { n: 'Casado especial', p: 6500, d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre, con tu proteína especial favorita.', op: [['Proteína', ['Lengua de la casa', 'Chicharrón', 'Costilla BBQ (fines de semana)']]] },
       { n: 'Casado ejecutivo', p: 5000, tag: 'L–V de 11:00 a.m. a 6:00 p.m.', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo y tortillas caseras, acompañado de refresco mediano o bebida en botella de vidrio.', op: [PROT, ['Bebida', ['Refresco de maracuyá', 'Refresco de zanahoria con naranja', 'Bebida en botella de vidrio']]] },
     ]},
@@ -383,7 +383,7 @@ const MENU = [
     { t: 'Sopas de la casa', d: 'Sopas preparadas con recetas tradicionales costarricenses, cocinadas con ingredientes frescos y el sabor casero de siempre.', items: [
       { n: 'Olla de carne', p: 6000, img: 'olla-de-carne', imgAlt: 'Olla de carne con elote, yuca, papa, chayote y plátano' },
       { n: 'Sopa de mondongo', p: 5500, tag: 'Fin de semana' },
-      { n: 'Pozol de la casa', sz: [['Grande', 6000], ['Mediano', 4500]], img: 'pozol', imgAlt: 'Pozol con carne de cerdo, maíz y verduras' },
+      { n: 'Pozol de la casa', sz: [['Grande', 6000], ['Mediano', 4500]] },
     ]},
     { t: 'Supremos', pre: 'Supremo', img: 'supremo', imgAlt: 'Supremo con elote, yuca, ensalada, limón y tortillas caseras', d: 'Elegí tu proteína favorita acompañada de banano, yuca, elote tierno, ensalada fresca y tortillas caseras.', items: [
       { n: 'Chorizo', p: 3500 }, { n: 'Pollo', p: 3500 }, { n: 'Salchichón', p: 3500 },
@@ -393,7 +393,7 @@ const MENU = [
   { id: 'chicharron', name: 'Chicharrón', groups: [
     { items: [
       { n: 'Vigorón', p: 6500, d: 'Incluye yuca, banano verde, elote, ensalada fresca, tortillas caseras y chicharrón a elegir.', op: [CHICH] },
-      { n: 'Chifrijo', p: 5000, img: 'chifrijo', imgAlt: 'Chifrijo servido en canasta de tortilla tostada con pico de gallo y yuca frita', d: 'Incluye arroz, frijoles, chimichurri, yuca frita recién cocinada, tostadas y chicharrón a elegir.', op: [['Chifrifiesta', ['Carne', 'Panzada', 'Mixto']]] },
+      { n: 'Chifrijo', p: 5000, d: 'Incluye arroz, frijoles, chimichurri, yuca frita recién cocinada, tostadas y chicharrón a elegir.', op: [['Chifrifiesta', ['Carne', 'Panzada', 'Mixto']]] },
       { n: 'Plato de chicharrón', p: 15000, img: 'chicharron', imgAlt: 'Chicharrón con yuca, tortilla y limón mandarina', d: '500 g de chicharrón de carne, panzada o mixto, acompañados de elote, yuca, banano, limón y tortillas caseras.', op: [['Chicharrón', ['Carne', 'Panzada', 'Mixto']]] },
     ]},
     { t: 'Chicharrones pa’ llevar', pre: 'Chicharrón pa’ llevar', d: 'Disfrutá unos deliciosos chicharrones, acompañados de tortillas y limón, eligiendo entre panzada, carne o mixtos.', items: [
@@ -404,7 +404,7 @@ const MENU = [
   ]},
   { id: 'tipicos', name: 'Típicos', note: 'Los acompañamientos de natilla, queso y mantequilla se ofrecen como extras.', groups: [
     { t: 'Chorreadas', star: true, d: 'Elaboradas con masa de maíz y cocinadas al momento. Una de las favoritas de nuestra casa.', items: [
-      { n: 'Chorreada dulce o salada', p: 2000, img: 'chorreada', imgAlt: 'Chorreada con natilla', op: [['Chorreada', ['Dulce', 'Salada']]] },
+      { n: 'Chorreada dulce o salada', p: 2000, img: 'chorreada', imgAlt: 'Chorreadas recién hechas, una con natilla', op: [['Chorreada', ['Dulce', 'Salada']]] },
       { n: 'Chorreada a la plancha', p: 3500 },
       { n: 'Promoción de chorreadas (6 uds.)', p: 10000 },
     ]},
