@@ -68,20 +68,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* ---------- Portada ---------- */
-.hero { position: relative; height: clamp(230px, 52vw, 360px); overflow: hidden; background: #3B2A20; }
+.hero { position: relative; height: clamp(176px, 44vw, 260px); overflow: hidden; background: #3B2A20; }
 .hero > img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
 .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20,10,5,.05) 30%, rgba(20,10,5,.78) 100%); }
-.hero .wrap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding-block: 0 18px; display: flex; align-items: flex-end; gap: 14px; color: var(--on-photo); }
-.hero-logo { width: clamp(92px, 24vw, 128px); flex: none; padding: 6px; border-radius: 50%; background: radial-gradient(circle, rgba(252,244,231,.92) 58%, rgba(252,244,231,0) 71%); filter: drop-shadow(0 4px 10px rgba(0,0,0,.3)); }
-.hero h1 { margin: 0; font: italic 800 clamp(2.4rem, 9vw, 3.6rem)/1 var(--display); letter-spacing: -.01em; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
-.hero p { margin: 4px 0 0; font: 500 .98rem/1.35 var(--body); text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+.hero .wrap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding-block: 0 14px; display: flex; align-items: flex-end; gap: 14px; color: var(--on-photo); }
+.hero-logo { width: clamp(78px, 21vw, 108px); flex: none; padding: 6px; border-radius: 50%; background: radial-gradient(circle, rgba(252,244,231,.92) 58%, rgba(252,244,231,0) 71%); filter: drop-shadow(0 4px 10px rgba(0,0,0,.3)); }
+.hero h1 { margin: 0; font: italic 800 clamp(2.1rem, 8vw, 3rem)/1 var(--display); letter-spacing: -.01em; text-shadow: 0 2px 12px rgba(0,0,0,.4); }
+.hero p { margin: 4px 0 0; font: 500 .92rem/1.3 var(--body); text-shadow: 0 1px 8px rgba(0,0,0,.5); }
 .hero .since { font-family: var(--display); font-weight: 700; letter-spacing: .02em; }
 .ref-tag { position: absolute; z-index: 1; font: 600 .68rem/1 var(--ui); letter-spacing: .04em; text-transform: uppercase; color: #fff; background: rgba(20,10,5,.55); padding: 5px 8px; border-radius: 999px; backdrop-filter: blur(4px); }
 .hero .ref-tag { top: calc(10px + env(safe-area-inset-top, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); }
 
 /* ---------- Cómo funciona ---------- */
-.how { padding-block: 18px 6px; display: grid; gap: 12px; }
-.how-card { background: var(--info); color: var(--info-ink); border-radius: var(--r-md); padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-size: .95rem; line-height: 1.45; }
+.how { padding-block: 14px 4px; display: grid; gap: 10px; }
+.how-card { background: var(--info); color: var(--info-ink); border-radius: var(--r-md); padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; font-size: .9rem; line-height: 1.4; }
 .how-card svg { flex: none; margin-top: 2px; }
 .how-card strong { font-weight: 600; }
 .facts { display: flex; flex-wrap: wrap; gap: 6px 16px; font: 500 .82rem/1.3 var(--ui); color: var(--muted); }
@@ -101,48 +101,55 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- Secciones ---------- */
 main { padding-bottom: 120px; }
-.sec { padding-block: 26px 4px; scroll-margin-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 6px); }
-.sec-title { display: flex; align-items: center; gap: 12px; margin: 0 0 6px; font: 800 clamp(1.7rem, 6vw, 2.1rem)/1.1 var(--display); color: var(--red); text-wrap: balance; }
+.sec { padding-block: 20px 2px; scroll-margin-top: calc(var(--nav-h) + env(safe-area-inset-top, 0px) + 6px); }
+.sec-title { display: flex; align-items: center; gap: 12px; margin: 0 0 4px; font: 800 clamp(1.5rem, 5.5vw, 1.85rem)/1.1 var(--display); color: var(--red); text-wrap: balance; }
 .sec-title::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--red), transparent); opacity: .35; }
-.sec-note { margin: 4px 0 0; font-style: italic; color: var(--muted); font-size: .92rem; }
-.grp { margin-top: 18px; }
-.pill { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 7px 16px; border-radius: 999px; background: var(--green); color: var(--green-ink); font: 700 1.05rem/1.15 var(--display); }
+.sec-note { margin: 2px 0 0; font-style: italic; color: var(--muted); font-size: .88rem; }
+.grp { margin-top: 14px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 6px 14px; border-radius: 999px; background: var(--green); color: var(--green-ink); font: 700 .98rem/1.15 var(--display); }
 .pill .star { color: var(--corn); }
-.grp-desc { margin: 8px 0 0; color: var(--muted); font-size: .95rem; max-width: 60ch; }
+.grp-desc { margin: 6px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.45; max-width: 60ch; }
+.grp-intro { display: flex; gap: 14px; align-items: flex-start; margin-top: 6px; }
+.grp-intro .grp-desc { margin: 0; flex: 1; min-width: 0; }
 
-.items { display: grid; grid-template-columns: 1fr; margin-top: 6px; }
+.items { display: grid; grid-template-columns: 1fr; margin-top: 2px; }
 @media (min-width: 600px) { .items.compact { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
+/* Listas simples (sin descripción): filas más bajas */
+.items.compact .item { padding: 7px 0; align-items: center; }
+.items.compact .add { width: 34px; height: 34px; }
 
-.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: start; padding: 13px 0; border-bottom: 1px dashed var(--line); cursor: pointer; }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 11px 0; border-bottom: 1px dashed var(--line); cursor: pointer; }
 .item-body { min-width: 0; }
 .item-head { display: flex; align-items: baseline; gap: 8px; }
-.item-name { margin: 0; font: 600 1.04rem/1.3 var(--body); min-width: 0; }
+.item-name { margin: 0; font: 600 1rem/1.3 var(--body); min-width: 0; }
 .item-name .star { color: var(--corn); margin-right: 2px; }
 .lead { flex: 1; min-width: 12px; border-bottom: 2px dotted var(--muted); opacity: .45; transform: translateY(-4px); }
-.price { flex: none; font: italic 500 1.02rem/1.3 var(--body); color: var(--red); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.price small { font-style: normal; font-size: .75rem; color: var(--muted); margin-right: 3px; }
-.item-desc { margin: 4px 0 0; color: var(--muted); font-size: .92rem; line-height: 1.45; }
-.sizes { margin: 4px 0 0; font: 500 .85rem/1.4 var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
+.price { flex: none; font: italic 500 .98rem/1.3 var(--body); color: var(--red); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.price small { font-style: normal; font-size: .72rem; color: var(--muted); margin-right: 3px; }
+.item-desc { margin: 3px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.42; }
+.item .item-desc { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.sizes { margin: 3px 0 0; font: 500 .82rem/1.4 var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
 .sizes b { color: var(--ink); font-weight: 600; }
-.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.tag { font: 600 .72rem/1 var(--ui); letter-spacing: .03em; text-transform: uppercase; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.tag { font: 600 .68rem/1 var(--ui); letter-spacing: .03em; text-transform: uppercase; padding: 4px 7px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); }
 .tag.hot { border-color: transparent; background: var(--info); color: var(--info-ink); }
-.incart { display: inline-flex; margin-top: 6px; font: 700 .76rem/1 var(--ui); color: var(--green); }
-.add { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--red); color: var(--red-ink); display: grid; place-items: center; flex: none; margin-top: -2px; box-shadow: 0 2px 6px rgba(120, 30, 20, .18); }
+.incart { display: inline-flex; margin-top: 5px; font: 700 .74rem/1 var(--ui); color: var(--green); }
+.item-side { position: relative; }
+.add { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--red); color: var(--red-ink); display: grid; place-items: center; flex: none; box-shadow: 0 2px 6px rgba(120, 30, 20, .18); }
 .add:active { transform: scale(.94); }
 
-/* Platillos con foto */
-.item.has-img { grid-template-columns: minmax(0, 1fr) auto; padding: 16px 0; }
-.photo { grid-column: 1 / -1; position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 16 / 10; max-width: 100%; background: var(--line); margin-bottom: 8px; }
+/* Miniaturas: la foto grande se ve al tocar el platillo */
+.thumb { display: block; width: 92px; aspect-ratio: 1; max-width: 100%; border: 0; padding: 0; border-radius: 12px; overflow: hidden; background: var(--line); flex: none; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.has-img .item-side { padding: 0 4px 4px 0; }
+.has-img .item-side .add { position: absolute; right: -2px; bottom: -2px; box-shadow: 0 0 0 3px var(--bg), 0 2px 6px rgba(120, 30, 20, .25); }
+@media (min-width: 600px) { .thumb { width: 112px; } }
+
+/* Foto grande (hoja de detalle) */
+.photo { position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 16 / 10; max-width: 100%; background: var(--line); }
 .photo img { width: 100%; height: 100%; object-fit: cover; }
 .photo .ref-tag { left: 10px; bottom: 10px; }
-@media (min-width: 600px) {
-  .item.has-img { grid-template-columns: 230px minmax(0, 1fr) auto; column-gap: 18px; }
-  .photo { grid-column: 1; grid-row: 1; aspect-ratio: 4 / 3; margin: 0; }
-}
 
-.grp > .photo.grp-photo { margin: 12px 0 0; aspect-ratio: 16 / 10; }
-@media (min-width: 600px) { .grp > .photo.grp-photo { aspect-ratio: 21 / 9; } }
 .empty { padding: 40px 0; text-align: center; color: var(--muted); }
 
 /* ---------- Pie ---------- */
@@ -169,7 +176,7 @@ main { padding-bottom: 120px; }
 .sheet-head { display: flex; align-items: flex-start; gap: 12px; }
 .sheet-head h2 { margin: 0; flex: 1; font: 800 1.5rem/1.15 var(--display); color: var(--ink); text-wrap: balance; }
 .x { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--bg); display: grid; place-items: center; flex: none; }
-.sheet .photo { margin: 0 0 14px; aspect-ratio: 16 / 10; }
+.sheet .photo { margin: 0 0 14px; }
 .sheet .item-desc { font-size: .97rem; }
 fieldset { border: 0; margin: 18px 0 0; padding: 0; min-width: 0; }
 legend { padding: 0; margin-bottom: 8px; font: 700 .8rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
@@ -262,11 +269,12 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 <div class="wrap how">
   <div class="how-card">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>
-    <div><strong>Alistá tu pedido:</strong> tocá <strong>+</strong> en lo que querés y luego mostrale la lista a tu salonero o en caja. Esta lista es solo una guía y <strong>no se envía a la cocina</strong>.</div>
+    <div><strong>Alistá tu pedido:</strong> tocá <strong>+</strong> y mostrale la lista a tu salonero o en caja. <strong>No se envía a la cocina.</strong></div>
   </div>
   <div class="facts">
     <span>Precios con 13 % de IVA incluido</span>
-    <span>El 10 % de servicio en mesa se calcula sobre el precio sin IVA</span>
+    <span>No incluyen el 10 % de servicio en mesa</span>
+    <span>Fotos de referencia</span>
   </div>
   <div class="search">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -290,7 +298,7 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
     <a href="tel:+50624875757">Tel. 2487-5757</a>
     <a href="https://www.facebook.com/fiestadelmaizcr" target="_blank" rel="noopener">Facebook: La Fiesta del Maíz</a>
   </div>
-  <p>Precios en colones costarricenses. Incluyen el 13 % de impuesto al valor agregado y no incluyen el 10 % de servicio en mesa, que se calcula sobre el precio sin impuesto.</p>
+  <p>Precios en colones costarricenses. Incluyen el 13 % de impuesto al valor agregado y no incluyen el 10 % de servicio en mesa.</p>
   <p>Las fotografías son de platillos preparados en nuestra cocina y se muestran como referencia. La presentación puede variar de un plato a otro.</p>
   <p>Algunos platillos están disponibles solo en ciertos días u horarios; están señalados en el menú. Venta de bebidas alcohólicas solo a mayores de 18 años.</p>
   <p class="credit">Menú digital por Lic. Gabriel Salas R.</p>
@@ -321,10 +329,32 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 const EGGS = ['Huevos', ['Revueltos', 'Fritos']];
 const PROT = ['Proteína', ['Pollo a la plancha', 'Bistec', 'Chuleta', 'Carne en salsa', 'Vegetariano']];
 const CHICH = ['Chicharrón', ['De carne', 'De panzada', 'Mixto']];
-const OZ = (a, b, c) => [['Pequeño (8 oz)', a], ['Mediano (16 oz)', b], ['Grande (24 oz)', c]];
+const OZ = (g, m, p) => [['Grande (24 oz)', g], ['Mediano (16 oz)', m], ['Pequeño (8 oz)', p]].map(([n, p]) => ({ n, p }));
 const list = (names, p) => names.map(n => ({ n, p }));
 
 const MENU = [
+  { id: 'gallos', name: 'Gallitos y antojos', groups: [
+    { t: 'Gallos', pre: 'Gallo', d: 'Tortillas caseras recién hechas, acompañadas con la proteína de tu elección.', items: [
+      { n: 'Lengua en salsa', p: 5000, star: true, img: 'gallo-lengua', imgAlt: 'Gallo de lengua en salsa con tortilla casera' },
+      { n: 'Carne en salsa', p: 3500 }, { n: 'Arroz con maíz y pollo', p: 2000 },
+      { n: 'Chorizo', p: 2500 }, { n: 'Salchichón', p: 2500 }, { n: 'Picadillo de papa', p: 2000 },
+    ]},
+    { t: 'Empanadas', pre: 'Empanada', img: 'empanada', imgAlt: 'Empanada de maíz con ensalada de repollo', d: 'Empanadas de masa de maíz rellenas a tu elección. Crujientes por fuera y llenas de sabor por dentro.', items: [
+      { n: 'Frijol con queso', p: 2500 }, { n: 'Carne', p: 2500 }, { n: 'Queso', p: 2500 },
+    ]},
+    { t: 'Frijoles de la casa', pre: 'Frijoles de la casa', d: 'Frijoles molidos sabrosos y con ese sabor casero que no falla, acompañados con tortillas tostadas.', items: [
+      { n: 'Medianos', p: 2000 }, { n: 'Pequeños', p: 1000 },
+    ]},
+  ]},
+  { id: 'ninos', name: 'Menú niños', groups: [
+    { items: [
+      { n: 'Palomitas de pollo', p: 3500, d: 'Trocitos de pollo empanizado y crujiente acompañados de papas fritas.' },
+      { n: 'Tacos de carne', p: 3000, d: 'Tacos de carne preparados al estilo de la casa, servidos con repollo.' },
+    ]},
+    { t: 'Papas fritas', pre: 'Papas fritas', d: 'Papas fritas crujientes, doradas y listas para disfrutar.', items: [
+      { n: 'Grandes', p: 2000 }, { n: 'Medianas', p: 1500 },
+    ]},
+  ]},
   { id: 'desayunos', name: 'Desayunos', groups: [
     { t: 'Gallo pinto', pre: 'Gallo pinto', items: [
       { n: 'Completo', p: 4000, img: 'gallo-pinto', imgAlt: 'Gallo pinto con huevos revueltos, plátano maduro, queso, natilla y tortilla', d: 'Una porción de pinto, huevos (revueltos o fritos), plátanos maduros, queso, natilla y tortillas caseras.', op: [EGGS] },
@@ -339,7 +369,7 @@ const MENU = [
   ]},
   { id: 'fuertes', name: 'Platos fuertes', groups: [
     { t: 'Casados', items: [
-      { n: 'Casado tradicional', p: 5500, img: 'casado', imgAlt: 'Casado con arroz, frijoles, ensalada, plátanos maduros, picadillo y tortillas', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre. Elegí la proteína de tu preferencia.', op: [PROT] },
+      { n: 'Casado tradicional', p: 5500, img: 'casado', imgAlt: 'Casado con carne en salsa, arroz, frijoles, ensalada y tortillas, con refresco natural', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre. Elegí la proteína de tu preferencia.', op: [PROT] },
       { n: 'Casado especial', p: 6500, d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo, tortillas caseras y postre, con tu proteína especial favorita.', op: [['Proteína', ['Lengua de la casa', 'Chicharrón', 'Costilla BBQ (fines de semana)']]] },
       { n: 'Casado ejecutivo', p: 5000, tag: 'L–V de 11:00 a.m. a 6:00 p.m.', d: 'Con arroz, frijoles, ensalada fresca, plátanos maduros, picadillo y tortillas caseras, acompañado de refresco mediano o bebida en botella de vidrio.', op: [PROT, ['Bebida', ['Refresco de maracuyá', 'Refresco de zanahoria con naranja', 'Bebida en botella de vidrio']]] },
     ]},
@@ -348,28 +378,26 @@ const MENU = [
       { n: 'Combinado', p: 5000, d: 'Arroz con maíz y pollo, picadillo de papa de la casa, guiso de elote tierno y tortillas caseras.' },
       { n: 'Fiesta Tico', p: 5500, d: 'Arroz con maíz y pollo, frijoles molidos de la casa, tostadas crujientes, ensalada fresca y postre. Un plato típico de la cocina costarricense.' },
     ]},
-    { t: 'Supremos', pre: 'Supremo', d: 'Elegí tu proteína favorita acompañada de banano, yuca, elote tierno, ensalada fresca y tortillas caseras.', items: [
+    { t: 'Sopas de la casa', d: 'Sopas preparadas con recetas tradicionales costarricenses, cocinadas con ingredientes frescos y el sabor casero de siempre.', items: [
+      { n: 'Olla de carne', p: 6000, img: 'olla-de-carne', imgAlt: 'Olla de carne con elote, yuca, papa, chayote y plátano' },
+      { n: 'Sopa de mondongo', p: 5500, tag: 'Fin de semana' },
+      { n: 'Pozol de la casa', sz: [['Grande', 6000], ['Mediano', 4500]], img: 'pozol', imgAlt: 'Pozol con carne de cerdo, maíz y verduras' },
+    ]},
+    { t: 'Supremos', pre: 'Supremo', img: 'supremo', imgAlt: 'Supremo con elote, yuca, ensalada, limón y tortillas caseras', d: 'Elegí tu proteína favorita acompañada de banano, yuca, elote tierno, ensalada fresca y tortillas caseras.', items: [
       { n: 'Chorizo', p: 3500 }, { n: 'Pollo', p: 3500 }, { n: 'Salchichón', p: 3500 },
       { n: 'Chuleta', p: 4000 }, { n: 'Bistec', p: 4000 }, { n: 'Costilla', p: 6000, tag: 'Fin de semana' },
     ]},
   ]},
-  { id: 'sopas', name: 'Sopas', groups: [
-    { t: 'Sopas de la casa', d: 'Sopas preparadas con recetas tradicionales costarricenses, cocinadas con ingredientes frescos y el sabor casero de siempre.', items: [
-      { n: 'Olla de carne', p: 6000, img: 'olla-de-carne', imgAlt: 'Olla de carne con elote, yuca, papa, chayote y plátano' },
-      { n: 'Pozol de la casa', sz: [['Mediano', 4500], ['Grande', 6000]], img: 'pozol', imgAlt: 'Pozol con carne de cerdo, maíz y verduras' },
-      { n: 'Sopa de mondongo', p: 5500, tag: 'Fin de semana' },
-    ]},
-  ]},
   { id: 'chicharron', name: 'Chicharrón', groups: [
     { items: [
+      { n: 'Vigorón', p: 6500, d: 'Incluye yuca, banano verde, elote, ensalada fresca, tortillas caseras y chicharrón a elegir.', op: [CHICH] },
       { n: 'Chifrijo', p: 5000, img: 'chifrijo', imgAlt: 'Chifrijo servido en canasta de tortilla tostada con pico de gallo y yuca frita', d: 'Incluye arroz, frijoles, chimichurri, yuca frita recién cocinada, tostadas y chicharrón a elegir.', op: [['Chifrifiesta', ['Carne', 'Panzada', 'Mixto']]] },
       { n: 'Plato de chicharrón', p: 15000, img: 'chicharron', imgAlt: 'Chicharrón con yuca, tortilla y limón mandarina', d: '500 g de chicharrón de carne, panzada o mixto, acompañados de elote, yuca, banano, limón y tortillas caseras.', op: [['Chicharrón', ['Carne', 'Panzada', 'Mixto']]] },
-      { n: 'Vigorón', p: 6500, d: 'Incluye yuca, banano verde, elote, ensalada fresca, tortillas caseras y chicharrón a elegir.', op: [CHICH] },
     ]},
     { t: 'Chicharrones pa’ llevar', pre: 'Chicharrón pa’ llevar', d: 'Disfrutá unos deliciosos chicharrones, acompañados de tortillas y limón, eligiendo entre panzada, carne o mixtos.', items: [
-      { n: '¼ kg de chicharrón', p: 6500, op: [CHICH] },
-      { n: '½ kg de chicharrón', p: 12000, op: [CHICH] },
-      { n: '1 kg de chicharrón', p: 22000, op: [CHICH] },
+      { n: '¼ kg', p: 6500, op: [CHICH] },
+      { n: '½ kg', p: 12000, op: [CHICH] },
+      { n: '1 kg', p: 22000, op: [CHICH] },
     ]},
   ]},
   { id: 'tipicos', name: 'Típicos', note: 'Los acompañamientos de natilla, queso y mantequilla se ofrecen como extras.', groups: [
@@ -378,77 +406,57 @@ const MENU = [
       { n: 'Chorreada a la plancha', p: 3500 },
       { n: 'Promoción de chorreadas (6 uds.)', p: 10000 },
     ]},
-    { t: 'Tamal de cerdo', pre: 'Tamal de cerdo', d: 'Tamal costarricense elaborado con la receta de la casa.', items: [
-      { n: 'Unidad', p: 1500, img: 'tamal-cerdo', imgAlt: 'Tamal de cerdo abierto sobre hoja de plátano' },
-      { n: 'Piña de tamal', p: 2500 },
-      { n: 'Promoción (3 piñas)', p: 6500 },
+    { t: 'Tortillas caseras', d: 'Tortillas de masa de maíz con queso.', items: [
+      { n: 'Tortilla de queso', p: 2000, img: 'tortilla-queso', imgAlt: 'Tortilla de queso dorada con natilla' },
+      { n: 'Tortilla queso fundido', p: 3500 },
+      { n: 'Promo tortillas de queso (6)', p: 10000 }, { n: 'Prensada de queso', p: 2000 },
     ]},
     { t: 'Elotes cocinados', pre: 'Elote', d: 'Elotes tiernos cocinados listos para disfrutar.', items: [
       { n: 'Unidad', p: 1000, img: 'elotes', imgAlt: 'Elotes cocinados con su tusa' },
       { n: 'Promoción (6 uds.)', p: 5000 },
     ]},
-    { t: 'Tortillas caseras', d: 'Tortillas de masa de maíz con queso.', items: [
-      { n: 'Tortilla de queso', p: 2000, img: 'tortilla-queso', imgAlt: 'Tortilla de queso dorada con natilla' }, { n: 'Tortilla queso fundido', p: 3500 },
-      { n: 'Promo tortillas de queso (6)', p: 10000 }, { n: 'Prensada de queso', p: 2000 },
+    { t: 'Tamal de cerdo', pre: 'Tamal de cerdo', d: 'Tamal costarricense elaborado con la receta de la casa.', items: [
+      { n: 'Unidad', p: 1500, img: 'tamal-cerdo', imgAlt: 'Tamal de cerdo abierto sobre hoja de plátano' },
+      { n: 'Piña de tamal', p: 2500 },
+      { n: 'Promoción (3 piñas)', p: 6500 },
     ]},
     { t: 'Tamal de elote', pre: 'Tamal de elote', d: 'Masa de maíz envuelta en tusa, cocinada a la manera tradicional.', items: [
       { n: 'Unidad', p: 1000 }, { n: 'Piña de tamal', p: 2000 }, { n: 'Promoción (3 piñas)', p: 5000 },
     ]},
   ]},
-  { id: 'gallos', name: 'Gallitos y antojos', groups: [
-    { t: 'Gallos', pre: 'Gallo', d: 'Tortillas caseras recién hechas, acompañadas con la proteína de tu elección.', items: [
-      { n: 'Lengua en salsa', p: 5000, star: true, img: 'gallo-lengua', imgAlt: 'Gallo de lengua en salsa con tortilla casera' }, { n: 'Carne en salsa', p: 3500 },
-      { n: 'Arroz con maíz y pollo', p: 2000 }, { n: 'Chorizo', p: 2500 },
-      { n: 'Salchichón', p: 2500 }, { n: 'Picadillo de papa', p: 2000 },
-    ]},
-    { t: 'Empanadas', pre: 'Empanada', img: 'empanada', imgAlt: 'Empanada de maíz con ensalada de repollo', d: 'Empanadas de masa de maíz rellenas a tu elección. Crujientes por fuera y llenas de sabor por dentro.', items: [
-      { n: 'Frijol con queso', p: 2500 }, { n: 'Carne', p: 2500 }, { n: 'Queso', p: 2500 },
-    ]},
-    { t: 'Frijoles de la casa', pre: 'Frijoles de la casa', d: 'Frijoles molidos sabrosos y con ese sabor casero que no falla, acompañados con tortillas tostadas.', items: [
-      { n: 'Pequeños', p: 1000 }, { n: 'Medianos', p: 2000 },
-    ]},
-  ]},
-  { id: 'ninos', name: 'Menú niños', groups: [
-    { items: [
-      { n: 'Palomitas de pollo', p: 3500, d: 'Trocitos de pollo empanizado y crujiente acompañados de papas fritas.' },
-      { n: 'Tacos de carne', p: 3000, d: 'Tacos de carne preparados al estilo de la casa, servidos con repollo.' },
-    ]},
-    { t: 'Papas fritas', pre: 'Papas fritas', d: 'Papas fritas crujientes, doradas y listas para disfrutar.', items: [
-      { n: 'Medianas', p: 1500 }, { n: 'Grandes', p: 2000 },
-    ]},
-  ]},
   { id: 'postres', name: 'Postres', groups: [
     { t: 'Pan de la casa', d: 'Panes horneados artesanalmente en nuestra cocina. Cada uno con ese sabor casero que los hace irresistibles.', items: [
-      { n: 'Pan de yuca', p: 1000, tag: 'Fin de semana' }, { n: 'Pan de elote', p: 1000, img: 'pan-elote', imgAlt: 'Porción de pan de elote' },
+      { n: 'Pan de yuca', p: 1000, tag: 'Fin de semana' },
+      { n: 'Pan de elote', p: 1000, img: 'pan-elote', imgAlt: 'Porción de pan de elote' },
       { n: 'Torta de arroz', p: 1000 }, { n: 'Promoción (6 uds.)', o: 'Pan de la casa · Promoción (6 uds.)', p: 5000 },
     ]},
-    { t: 'Arroz con leche', pre: 'Arroz con leche', d: 'Cremoso arroz con leche preparado al estilo casero. Uno de los favoritos.', items: [
-      { n: 'Pequeño', p: 2000 }, { n: 'Mediano', p: 3500 }, { n: 'Grande', p: 5000 },
-    ]},
     { t: 'Mazamorra', pre: 'Mazamorra', d: 'Mazamorra de maíz con canela, preparada con la receta tradicional.', items: [
-      { n: 'Pequeña', p: 1500 }, { n: 'Mediana', p: 2500 }, { n: 'Grande', p: 3500 },
+      { n: 'Grande', p: 3500 }, { n: 'Mediana', p: 2500 }, { n: 'Pequeña', p: 1500 },
     ]},
     { t: 'Granizados', d: 'Hielo bañado en sirope y/o leche, según tu elección.', items: [
       { n: 'Granizado dos leches', p: 1500 }, { n: 'Granizado sin leches', p: 1000 },
     ]},
+    { t: 'Arroz con leche', pre: 'Arroz con leche', d: 'Cremoso arroz con leche preparado al estilo casero. Uno de los favoritos.', items: [
+      { n: 'Grande', p: 5000 }, { n: 'Mediano', p: 3500 }, { n: 'Pequeño', p: 2000 },
+    ]},
     { t: 'Suspiros', items: [ { n: 'Suspiros', p: 2000 } ] },
   ]},
   { id: 'llevar', name: 'Pa’ llevar', groups: [
-    { t: 'Carne en salsa', pre: 'Carne en salsa', items: OZ(3500, 6000, 10000).map(([n, p]) => ({ n, p })) },
-    { t: 'Lengua en salsa', pre: 'Lengua en salsa', items: OZ(5000, 9000, 13000).map(([n, p]) => ({ n, p })) },
-    { t: 'Arroz con maíz y pollo', pre: 'Arroz maíz y pollo', d: 'Arroz con maíz y pollo preparado con la receta de la casa.', items: OZ(3000, 5000, 6500).map(([n, p]) => ({ n, p })) },
-    { t: 'Picadillo artesanal', pre: 'Picadillo artesanal', d: 'Picadillo casero de papa y carne, preparado con la receta de la abuela.', items: OZ(3000, 5000, 6500).map(([n, p]) => ({ n, p })) },
-    { t: 'Guiso de elote', pre: 'Guiso de elote', d: 'Guiso casero de maíz tierno con chayote y olores frescos.', items: OZ(2500, 4000, 5500).map(([n, p]) => ({ n, p })) },
+    { t: 'Carne en salsa', pre: 'Carne en salsa', items: OZ(10000, 6000, 3500) },
+    { t: 'Lengua en salsa', pre: 'Lengua en salsa', items: OZ(13000, 9000, 5000) },
+    { t: 'Arroz maíz y pollo', pre: 'Arroz maíz y pollo', d: 'Arroz con maíz y pollo preparado con la receta de la casa.', items: OZ(6500, 5000, 3000) },
+    { t: 'Picadillo artesanal', pre: 'Picadillo artesanal', img: 'picadillo', imgAlt: 'Picadillo casero servido con tortilla', d: 'Picadillo casero de papa y carne, preparado con la receta de la abuela.', items: OZ(6500, 5000, 3000) },
+    { t: 'Guiso de elote', pre: 'Guiso de elote', img: 'guiso-elote', imgAlt: 'Guiso de elote con tortillas caseras', d: 'Guiso casero de maíz tierno con chayote y olores frescos.', items: OZ(5500, 4000, 2500) },
     { t: 'Bizcochos', pre: 'Bizcocho', d: 'Bizcochos horneados de masa de maíz, crujientes y sabrosos.', items: [
       { n: 'Maíz blanco', p: 2500 }, { n: 'Maíz amarillo', p: 2500 }, { n: 'Relleno', p: 1500 },
     ]},
     { t: 'Promociones especiales', items: [
-      { n: '3 tortillas de queso y 3 chorreadas', p: 10000, tag: 'Promo combinada', hot: true },
       { n: 'Panes de la casa (6 uds.)', p: 5000 },
       { n: 'Tamales de elote (3 piñas)', p: 5000 },
       { n: 'Tamales de cerdo (3 piñas)', p: 6500 },
       { n: 'Tortillas de queso (6 uds.)', p: 10000 },
       { n: 'Chorreadas (6 uds.)', p: 10000 },
+      { n: '3 tortillas de queso y 3 chorreadas', p: 10000, tag: 'Promo combinada', hot: true },
     ]},
   ]},
   { id: 'naturales', name: 'Naturales y batidos', groups: [
@@ -475,28 +483,27 @@ const MENU = [
   ]},
   { id: 'calientes', name: 'Bebidas calientes', groups: [
     { t: 'Típicas', items: [ { n: 'Chocolate', p: 1200 }, { n: 'Agua dulce', p: 1000 }, { n: 'Agua dulce con leche', p: 1200 } ] },
+    { t: 'Té caliente', items: [ { n: 'Té negro', p: 1000 }, { n: 'Té negro con leche', p: 1200 }, { n: 'Té de manzanilla', p: 1200 } ] },
     { t: 'Café', items: [
       { n: 'Café negro', p: 1000 }, { n: 'Café con leche', p: 1250 }, { n: 'Capuchino', p: 2000 },
       { n: 'Capuchino vainilla', p: 2000 }, { n: 'Mocaccino', p: 2000 }, { n: 'Expresso', p: 2000 },
     ]},
-    { t: 'Té caliente', items: [ { n: 'Té negro', p: 1000 }, { n: 'Té negro con leche', p: 1200 }, { n: 'Té de manzanilla', p: 1200 } ] },
   ]},
   { id: 'cervezas', name: 'Cervezas', note: 'Venta exclusiva para mayores de 18 años.', groups: [
     { t: 'Nacional', items: list(['Imperial Regular', 'Imperial Silver', 'Imperial Light', 'Imperial Ultra', 'Pilsen'], 1500) },
     { t: 'Bavaria', items: list(['Bavaria Gold', 'Bavaria Master', 'Bavaria Light'], 2000) },
-    { t: 'Heineken y Corona', items: list(['Heineken Regular', 'Heineken Cero', 'Corona'], 2000) },
     { t: 'Smirnoff', pre: 'Smirnoff', items: list(['Original', 'Black', 'Guaraná', 'Raspberry', 'Manzana verde'], 2000) },
+    { t: 'Heineken y Corona', items: list(['Heineken Regular', 'Heineken Cero', 'Corona'], 2000) },
   ]},
   { id: 'extras', name: 'Extras', note: 'Para sumarle a tu plato.', groups: [
     { pre: 'Extra', items: [
-      ['Natilla', 500], ['Queso', 500], ['Mantequilla', 500], ['Huevo', 500], ['Tortillas caseras', 500],
-      ['Tortillas tostadas', 500], ['Frijoles molidos', 500], ['Pinto', 600], ['Arroz blanco', 500],
-      ['Ensalada pequeña', 500], ['Ensalada mediana', 1000], ['Ensalada grande', 1500], ['Verduras', 500],
-      ['Banano', 500], ['Yuca cocida', 500], ['Yuca frita', 2000], ['Taza de natilla', 2000],
-      ['Caldo de carne en salsa', 600], ['Caldo de olla de carne', 500], ['Chimichurri', 500],
-      ['Tomate', 250], ['Cebolla', 250], ['Limón', 200], ['Michelada', 500],
-      ['Bistec', 1500], ['Chuleta', 1500], ['Pollo', 1500], ['Salchichón', 1500], ['Chorizo', 1500],
-      ['Empaques', 250],
+      ['Limón', 200], ['Empaques', 250], ['Chimichurri', 500], ['Michelada', 500], ['Huevo', 500],
+      ['Natilla', 500], ['Queso', 500], ['Mantequilla', 500], ['Arroz blanco', 500], ['Pinto', 600],
+      ['Verduras', 500], ['Banano', 500], ['Tomate', 250], ['Cebolla', 250], ['Yuca cocida', 500],
+      ['Caldo carne en salsa', 600], ['Caldo olla de carne', 500], ['Ensalada pequeña', 500],
+      ['Ensalada mediana', 1000], ['Ensalada grande', 1500], ['Frijoles molidos', 500],
+      ['Tortillas tostadas', 500], ['Tortillas caseras', 500], ['Taza de natilla', 2000], ['Yuca frita', 2000],
+      ['Bistec', 1500], ['Salchichón', 1500], ['Chorizo', 1500], ['Pollo', 1500], ['Chuleta', 1500],
     ].map(([n, p]) => ({ n, p })) },
   ]},
 ];
@@ -534,29 +541,27 @@ function itemHTML(it) {
     : `<span class="price">${money(it.p)}</span>`;
   const sizes = it.sz ? `<p class="sizes">${it.sz.map(([l, p]) => `${esc(l)} <b>${money(p)}</b>`).join(' · ')}</p>` : '';
   const tags = it.tag ? `<div class="tags"><span class="tag${it.hot ? ' hot' : ''}">${esc(it.tag)}</span></div>` : '';
-  const photo = it.img ? `<div class="photo"><img src="img/${it.img}.webp" alt="${esc(it.imgAlt || it.n)}" loading="lazy" decoding="async"><span class="ref-tag">Imagen de referencia</span></div>` : '';
+  const thumb = it.img ? `<span class="thumb"><img src="img/${it.img}.webp" alt="${esc(it.imgAlt || it.n)}" loading="lazy" decoding="async"></span>` : '';
   return `<article class="item${it.img ? ' has-img' : ''}" data-id="${it.id}">
-    ${photo}
     <div class="item-body">
       <div class="item-head"><h4 class="item-name">${it.star ? '<span class="star" aria-label="Favorito de la casa">★</span>' : ''}${esc(it.n)}</h4><span class="lead" aria-hidden="true"></span>${price}</div>
       ${it.d ? `<p class="item-desc">${esc(it.d)}</p>` : ''}${sizes}${tags}
       <span class="incart" data-incart hidden></span>
     </div>
-    <button class="add" type="button" data-add="${it.id}" aria-label="Agregar ${esc(it.label)}">${ICON.plus}</button>
+    <div class="item-side">${thumb}<button class="add" type="button" data-add="${it.id}" aria-label="Agregar ${esc(it.label)}">${ICON.plus}</button></div>
   </article>`;
 }
 function render() {
   $('#chips').innerHTML = MENU.map(s => `<button class="chip" type="button" data-go="${s.id}">${esc(s.name)}</button>`).join('');
-  $('#menu').innerHTML = MENU.map(sec => `
+  $('#menu').innerHTML = MENU.map((sec, si) => `
     <section class="sec" id="${sec.id}" aria-labelledby="h-${sec.id}">
       <h2 class="sec-title" id="h-${sec.id}">${esc(sec.name)}</h2>
       ${sec.note ? `<p class="sec-note">${esc(sec.note)}</p>` : ''}
-      ${sec.groups.map(g => {
+      ${sec.groups.map((g, gi) => {
         const compact = g.items.every(i => !i.d && !i.img) && g.items.length > 3;
         return `<div class="grp">
           ${g.t ? `<h3 class="pill">${g.star ? '<span class="star" aria-hidden="true">★</span>' : ''}${esc(g.t)}</h3>` : ''}
-          ${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : ''}
-          ${g.img ? `<div class="photo grp-photo"><img src="img/${g.img}.webp" alt="${esc(g.imgAlt || g.t)}" loading="lazy" decoding="async"><span class="ref-tag">Imagen de referencia</span></div>` : ''}
+          ${g.d || g.img ? `<div class="grp-intro">${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : '<span style="flex:1"></span>'}${g.img ? `<button class="thumb" type="button" data-gphoto="${si}-${gi}" aria-label="Ver foto: ${esc(g.t)}"><img src="img/${g.img}.webp" alt="${esc(g.imgAlt || g.t)}" loading="lazy" decoding="async"></button>` : ''}</div>` : ''}
           <div class="items${compact ? ' compact' : ''}">${g.items.map(itemHTML).join('')}</div>
         </div>`;
       }).join('')}
@@ -676,6 +681,17 @@ $('#itemSheet').addEventListener('click', e => {
   }
 });
 
+function openGroupPhoto(si, gi) {
+  const g = MENU[si].groups[gi], el = $('#itemSheet');
+  el.innerHTML = `
+    <div class="grab" aria-hidden="true"></div>
+    <div class="photo"><img src="img/${g.img}.webp" alt="${esc(g.imgAlt || g.t)}"><span class="ref-tag">Imagen de referencia</span></div>
+    <div class="sheet-head"><h2 id="isTitle">${esc(g.t)}</h2><button class="x" type="button" data-close aria-label="Cerrar">${ICON.x}</button></div>
+    ${g.d ? `<p class="item-desc">${esc(g.d)}</p>` : ''}`;
+  el._groups = [];
+  openSheet(el);
+}
+
 /* Hoja del pedido */
 function openOrder() { renderOrder(); openSheet($('#orderSheet')); }
 function renderOrder() {
@@ -700,7 +716,7 @@ function renderOrder() {
     </ul>
     <div class="totals">
       <div class="muted"><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
-      ${mode === 'aqui' ? `<div class="muted"><span>Servicio en mesa (10 % sin IVA)</span><span>${money(srv)}</span></div>` : ''}
+      ${mode === 'aqui' ? `<div class="muted"><span>10 % servicio restaurante</span><span>${money(srv)}</span></div>` : ''}
       <div class="grand"><span>Total estimado</span><span>${money(sub + srv)}</span></div>
       <div class="muted" style="font-size:.85rem">El monto final lo confirma la caja.</div>
     </div>
@@ -744,7 +760,7 @@ function showWaiter() {
     <ul class="w-list">${cart.map(l => `<li><span class="w-qty">${l.qty}</span><span class="w-name">${esc(l.label)}</span>${l.sub ? `<span class="w-sub">${esc(l.sub)}</span>` : ''}${l.note ? `<span class="w-note">Nota: ${esc(l.note)}</span>` : ''}</li>`).join('')}</ul>
     <div class="w-total">
       <div><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
-      ${srv ? `<div><span>Servicio 10 % (sin IVA)</span><span>${money(srv)}</span></div>` : ''}
+      ${srv ? `<div><span>10 % servicio restaurante</span><span>${money(srv)}</span></div>` : ''}
       <div class="grand"><span>Total estimado</span><span>${money(sub + srv)}</span></div>
     </div>
     <div class="w-actions"><button class="primary" type="button" data-back>Volver a mi pedido</button></div>
@@ -759,6 +775,8 @@ $('#waiter').addEventListener('click', e => {
 
 /* ---------- Interacciones del menú ---------- */
 $('#menu').addEventListener('click', e => {
+  const gp = e.target.closest('[data-gphoto]');
+  if (gp) { const [si, gi] = gp.dataset.gphoto.split('-').map(Number); return openGroupPhoto(si, gi); }
   const add = e.target.closest('[data-add]');
   if (add) { const it = ITEMS[add.dataset.add]; return needsSheet(it) ? openItem(it.id) : addLine({ id: it.id, price: it.p }); }
   const art = e.target.closest('.item');
