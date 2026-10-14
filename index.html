@@ -105,12 +105,9 @@ main { padding-bottom: 120px; }
 .sec-title { display: flex; align-items: center; gap: 12px; margin: 0 0 4px; font: 800 clamp(1.5rem, 5.5vw, 1.85rem)/1.1 var(--display); color: var(--red); text-wrap: balance; }
 .sec-title::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, var(--red), transparent); opacity: .35; }
 .sec-note { margin: 2px 0 0; font-style: italic; color: var(--muted); font-size: .88rem; }
-.grp { margin-top: 14px; }
 .pill { display: inline-flex; align-items: center; gap: 6px; margin: 0; padding: 6px 14px; border-radius: 999px; background: var(--green); color: var(--green-ink); font: 700 .98rem/1.15 var(--display); }
 .pill .star { color: var(--corn); }
 .grp-desc { margin: 6px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.45; max-width: 60ch; }
-.grp-intro { display: flex; gap: 14px; align-items: flex-start; margin-top: 6px; }
-.grp-intro .grp-desc { margin: 0; flex: 1; min-width: 0; }
 
 .items { display: grid; grid-template-columns: 1fr; margin-top: 2px; }
 @media (min-width: 600px) { .items.compact { grid-template-columns: 1fr 1fr; column-gap: 28px; } }
@@ -138,12 +135,17 @@ main { padding-bottom: 120px; }
 .add { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--red); color: var(--red-ink); display: grid; place-items: center; flex: none; box-shadow: 0 2px 6px rgba(120, 30, 20, .18); }
 .add:active { transform: scale(.94); }
 
-/* Miniaturas: la foto grande se ve al tocar el platillo */
-.thumb { display: block; width: 92px; aspect-ratio: 1; max-width: 100%; border: 0; padding: 0; border-radius: 12px; overflow: hidden; background: var(--line); flex: none; }
-.thumb img { width: 100%; height: 100%; object-fit: cover; }
-.has-img .item-side { padding: 0 4px 4px 0; }
-.has-img .item-side .add { position: absolute; right: -2px; bottom: -2px; box-shadow: 0 0 0 3px var(--bg), 0 2px 6px rgba(120, 30, 20, .25); }
-@media (min-width: 600px) { .thumb { width: 112px; } }
+/* Foto de encabezado de cada grupo */
+.banner { display: grid; gap: 8px; margin-bottom: 12px; }
+.banner.two { grid-template-columns: 1fr 1fr; }
+.ban { position: relative; display: block; width: 100%; max-width: 100%; aspect-ratio: 16 / 9; border: 0; padding: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--line); }
+.banner.two .ban { aspect-ratio: 1 / 1; }
+.ban img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.ban:hover img { transform: scale(1.03); }
+.ban .ref-tag { top: 8px; right: 8px; }
+.ban .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 22px 10px 9px; text-align: left; background: linear-gradient(rgba(20,10,5,0), rgba(20,10,5,.72)); color: #fff; font: 700 1rem/1.2 var(--display); }
+@media (min-width: 600px) { .ban { aspect-ratio: 21 / 9; } .banner.two .ban { aspect-ratio: 4 / 3; } }
+.grp { margin-top: 22px; }
 
 /* Foto grande (hoja de detalle) */
 .photo { position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 16 / 10; max-width: 100%; background: var(--line); }
@@ -541,14 +543,13 @@ function itemHTML(it) {
     : `<span class="price">${money(it.p)}</span>`;
   const sizes = it.sz ? `<p class="sizes">${it.sz.map(([l, p]) => `${esc(l)} <b>${money(p)}</b>`).join(' · ')}</p>` : '';
   const tags = it.tag ? `<div class="tags"><span class="tag${it.hot ? ' hot' : ''}">${esc(it.tag)}</span></div>` : '';
-  const thumb = it.img ? `<span class="thumb"><img src="img/${it.img}.webp" alt="${esc(it.imgAlt || it.n)}" loading="lazy" decoding="async"></span>` : '';
-  return `<article class="item${it.img ? ' has-img' : ''}" data-id="${it.id}">
+  return `<article class="item" data-id="${it.id}">
     <div class="item-body">
       <div class="item-head"><h4 class="item-name">${it.star ? '<span class="star" aria-label="Favorito de la casa">★</span>' : ''}${esc(it.n)}</h4><span class="lead" aria-hidden="true"></span>${price}</div>
       ${it.d ? `<p class="item-desc">${esc(it.d)}</p>` : ''}${sizes}${tags}
       <span class="incart" data-incart hidden></span>
     </div>
-    <div class="item-side">${thumb}<button class="add" type="button" data-add="${it.id}" aria-label="Agregar ${esc(it.label)}">${ICON.plus}</button></div>
+    <div class="item-side"><button class="add" type="button" data-add="${it.id}" aria-label="Agregar ${esc(it.label)}">${ICON.plus}</button></div>
   </article>`;
 }
 function render() {
@@ -558,10 +559,19 @@ function render() {
       <h2 class="sec-title" id="h-${sec.id}">${esc(sec.name)}</h2>
       ${sec.note ? `<p class="sec-note">${esc(sec.note)}</p>` : ''}
       ${sec.groups.map((g, gi) => {
-        const compact = g.items.every(i => !i.d && !i.img) && g.items.length > 3;
+        const compact = g.items.every(i => !i.d) && g.items.length > 3;
+        const photos = g.img
+          ? [{ src: g.img, alt: g.imgAlt || g.t, attr: `data-gphoto="${si}-${gi}"`, cap: g.t }]
+          : g.items.filter(i => i.img).map(i => ({ src: i.img, alt: i.imgAlt || i.n, attr: `data-open="${i.id}"`, cap: i.n }));
+        const banner = photos.length ? `<div class="banner${photos.length > 1 ? ' two' : ''}">${photos.map(ph => `
+          <button class="ban" type="button" ${ph.attr} aria-label="Ver foto: ${esc(ph.cap)}">
+            <img src="img/${ph.src}.webp" alt="${esc(ph.alt)}" loading="lazy" decoding="async">
+            <span class="ref-tag">Imagen de referencia</span>${photos.length > 1 ? `<span class="cap">${esc(ph.cap)}</span>` : ''}
+          </button>`).join('')}</div>` : '';
         return `<div class="grp">
+          ${banner}
           ${g.t ? `<h3 class="pill">${g.star ? '<span class="star" aria-hidden="true">★</span>' : ''}${esc(g.t)}</h3>` : ''}
-          ${g.d || g.img ? `<div class="grp-intro">${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : '<span style="flex:1"></span>'}${g.img ? `<button class="thumb" type="button" data-gphoto="${si}-${gi}" aria-label="Ver foto: ${esc(g.t)}"><img src="img/${g.img}.webp" alt="${esc(g.imgAlt || g.t)}" loading="lazy" decoding="async"></button>` : ''}</div>` : ''}
+          ${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : ''}
           <div class="items${compact ? ' compact' : ''}">${g.items.map(itemHTML).join('')}</div>
         </div>`;
       }).join('')}
@@ -775,6 +785,8 @@ $('#waiter').addEventListener('click', e => {
 
 /* ---------- Interacciones del menú ---------- */
 $('#menu').addEventListener('click', e => {
+  const op = e.target.closest('[data-open]');
+  if (op) return openItem(op.dataset.open);
   const gp = e.target.closest('[data-gphoto]');
   if (gp) { const [si, gi] = gp.dataset.gphoto.split('-').map(Number); return openGroupPhoto(si, gi); }
   const add = e.target.closest('[data-add]');
