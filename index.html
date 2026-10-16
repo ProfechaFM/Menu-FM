@@ -17,7 +17,8 @@
 <style>
 /* Layout: una columna de lectura (máx. 760 px). Barra de categorías fija arriba; cada categoría
    es un acordeón (solo una abierta) y su encabezado queda fijo bajo la barra mientras se recorre.
-   Productos en filas de texto; las pocas fotos van como miniaturas que se amplían al tocarlas. */
+   Al abrir una categoría: como máximo una foto destacada y luego la lista limpia, todas las filas iguales.
+   Las fotos de cada producto se ven grandes en su detalle. */
 :root {
   --bg: #F7EFE2;          /* crema del menú impreso */
   --surface: #FFFBF5;
@@ -136,9 +137,8 @@ main { padding-block: 6px 8px; }
 
 /* ---------- Productos ---------- */
 .items { display: grid; grid-template-columns: minmax(0, 1fr); }
-.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name buy" "more more"; column-gap: 12px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line-soft); cursor: pointer; }
+.item { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name buy" "more more"; column-gap: 14px; align-items: center; padding: 11px 0; border-top: 1px solid var(--line-soft); cursor: pointer; }
 .items > .item:first-child { border-top: 0; }
-.item.has-img { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "thumb name buy" "thumb more more"; }
 .item-name { grid-area: name; margin: 0; min-width: 0; font: 700 1.06rem/1.25 var(--display); overflow-wrap: anywhere; }
 .item-name .star { color: var(--corn); margin-right: 3px; }
 .item-buy { grid-area: buy; align-self: start; display: flex; align-items: center; gap: 10px; }
@@ -156,17 +156,26 @@ main { padding-block: 6px 8px; }
 .when.hot { color: var(--info-ink); background: var(--info); width: fit-content; padding: 3px 8px; border-radius: 6px; }
 .incart { display: inline-flex; margin-top: 4px; font: 700 .84rem/1.2 var(--ui); color: var(--green); }
 
-/* Miniaturas: solo en productos (o subgrupos) que tienen su propia foto */
-.thumb { position: relative; display: block; flex: none; width: 76px; height: 76px; padding: 0; border: 0; border-radius: 14px; overflow: hidden; background: var(--line-soft); cursor: zoom-in; }
-.thumb img { width: 100%; height: 100%; object-fit: cover; }
-.thumb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
-.item > .thumb { grid-area: thumb; align-self: start; }
-.grp-head .thumb { width: 68px; height: 68px; }
 @media (min-width: 600px) {
-  .thumb { width: 92px; height: 92px; }
-  .grp-head .thumb { width: 80px; height: 80px; }
   .items.compact { grid-template-columns: 1fr 1fr; column-gap: 32px; }
   .items.compact > .item:nth-child(2) { border-top: 0; }
+}
+
+/* Foto destacada: una por categoría, entre el encabezado y los subgrupos */
+.feat { display: block; width: 100%; margin: 4px 0 14px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.feat-img { display: block; width: 100%; max-width: 100%; height: clamp(160px, 47vw, 190px); border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); }
+.feat-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+.feat:hover .feat-img img { transform: scale(1.02); }
+.feat figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; padding: 7px 2px 0; }
+.feat-name { font: italic 700 .98rem/1.3 var(--display); color: var(--ink); }
+.feat-name span { font: 500 .86rem/1.3 var(--ui); font-style: normal; color: var(--muted); }
+.feat-note { font: 500 .8rem/1.3 var(--ui); color: var(--muted); }
+/* En pantallas anchas la foto se mantiene en 4:3 (sin recorte excesivo) y el pie va al lado */
+@media (min-width: 600px) {
+  .feat figure { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: end; }
+  .feat-img { height: auto; aspect-ratio: 4 / 3; }
+  .feat figcaption { flex-direction: column; align-items: flex-start; gap: 4px; padding: 0 0 6px; }
+  .feat-name { font-size: 1.12rem; }
 }
 
 .empty { padding: 36px 0 12px; text-align: center; color: var(--muted); }
@@ -196,7 +205,7 @@ body.has-cart .foot { padding-bottom: calc(120px + env(safe-area-inset-bottom, 0
 .sheet-head { display: flex; align-items: flex-start; gap: 12px; }
 .sheet-head h2 { margin: 0; flex: 1; font: 800 1.55rem/1.15 var(--display); color: var(--ink); text-wrap: balance; }
 .x { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--bg); display: grid; place-items: center; flex: none; }
-.photo { position: relative; display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; margin: 0 0 14px; padding: 0; border: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); cursor: zoom-in; }
+.photo { position: relative; display: block; width: 100%; max-width: 100%; aspect-ratio: 1 / 1; max-height: min(58vh, 480px); margin: 0 0 14px; padding: 0; border: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); cursor: zoom-in; }
 .photo img { width: 100%; height: 100%; object-fit: cover; }
 .photo .ref-tag { left: 10px; bottom: 10px; }
 .photo .zoom { position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(20,10,5,.55); color: #FFFFFF; display: grid; place-items: center; }
@@ -551,6 +560,24 @@ const MENU = [
 ];
 
 /* =========================================================
+   FOTO DESTACADA POR CATEGORÍA (máximo una)
+   item: id del producto fotografiado (al tocar abre su detalle)
+   group: número de subgrupo cuando la foto es del subgrupo (al tocar se amplía)
+   cap: nombre exacto del plato que aparece en la foto
+   pos: encuadre (object-position) para que el plato se entienda en formato apaisado
+   Categorías sin entrada: se muestra la lista directamente.
+   ========================================================= */
+const FEATURED = {
+  gallos:     { item: 'gallos-0-0',     cap: 'Gallo de lengua en salsa',              pos: '50% 34%' },
+  desayunos:  { item: 'desayunos-0-0',  cap: 'Gallo pinto completo',                  pos: '50% 52%' },
+  fuertes:    { item: 'fuertes-0-0',    cap: 'Casado tradicional con carne en salsa', pos: '50% 60%' },
+  chicharron: { item: 'chicharron-0-2', cap: 'Plato de chicharrón',                   pos: '50% 55%' },
+  tipicos:    { item: 'tipicos-0-0',    cap: 'Chorreada con natilla',                 pos: '50% 62%' },
+  postres:    { item: 'postres-0-1',    cap: 'Pan de elote',                          pos: '50% 50%' },
+  llevar:     { group: 4,               cap: 'Guiso de elote',                        pos: '50% 46%' },
+};
+
+/* =========================================================
    LÓGICA
    ========================================================= */
 const $ = (s, r = document) => r.querySelector(s);
@@ -595,32 +622,43 @@ function catHint(sec) {
   sec.groups.forEach(g => { if (g.t) parts.push(g.t); else g.items.forEach(i => parts.push(i.n)); });
   return parts.join(' · ');
 }
-function thumbHTML(name, alt, label, attr) {
-  return `<button class="thumb" type="button" ${attr} data-imgbox aria-label="Ampliar foto: ${esc(label)}"><img src="${imgSrc(name)}" alt="${esc(alt)}" width="160" height="160" loading="lazy" decoding="async"></button>`;
+/* Foto destacada de una categoría (o nada, si no tiene una adecuada) */
+function featHTML(sec, si) {
+  const f = FEATURED[sec.id]; if (!f) return '';
+  let name, alt, attr, label;
+  if (f.item) {
+    const it = ITEMS[f.item]; if (!it || !hasPhoto(it.img)) return '';
+    name = it.img; alt = it.imgAlt || f.cap; attr = `data-feat-item="${it.id}"`; label = `Ver ${f.cap}`;
+  } else {
+    const g = sec.groups[f.group]; if (!g || !hasPhoto(g.img)) return '';
+    name = g.img; alt = g.imgAlt || f.cap; attr = `data-zoom-g="${si}-${f.group}"`; label = `Ampliar foto: ${f.cap}`;
+  }
+  return `<button class="feat" type="button" ${attr} data-imgbox aria-label="${esc(label)}">
+      <figure style="margin:0">
+        <span class="feat-img"><img src="${imgSrc(name)}" alt="${esc(alt)}" loading="lazy" decoding="async"${f.pos ? ` style="object-position:${f.pos}"` : ''}></span>
+        <figcaption><span class="feat-name"><span>En la foto: </span>${esc(f.cap)}</span><span class="feat-note">Imagen de referencia</span></figcaption>
+      </figure>
+    </button>`;
 }
 function itemHTML(it) {
-  const pic = hasPhoto(it.img);
   const price = it.sz
     ? `<span class="price"><small>desde</small>${money(minPrice(it))}</span>`
     : `<span class="price">${money(it.p)}</span>`;
   const sizes = it.sz ? `<p class="sizes">${it.sz.map(([l, p]) => `${esc(l)} <b>${money(p)}</b>`).join(' · ')}</p>` : '';
   const when = it.tag ? `<p class="when${it.hot ? ' hot' : ''}">${it.hot ? '' : ICON.clock}${esc(it.tag)}</p>` : '';
-  return `<article class="item${pic ? ' has-img' : ''}" data-id="${it.id}">
-    ${pic ? thumbHTML(it.img, it.imgAlt || it.n, it.n, `data-zoom="${it.id}"`) : ''}
+  return `<article class="item" data-id="${it.id}">
     <h4 class="item-name">${it.star ? '<span class="star" aria-label="Favorito de la casa">★</span>' : ''}${esc(it.n)}</h4>
     <div class="item-buy">${price}<button class="add" type="button" data-add="${it.id}" aria-label="Agregar ${esc(it.label)}">${ICON.plus}</button></div>
     <div class="item-more">${it.d ? `<p class="item-desc">${esc(it.d)}</p>` : ''}${sizes}${when}<span class="incart" data-incart hidden></span></div>
   </article>`;
 }
 function groupHTML(g, si, gi) {
-  const compact = g.items.every(i => !i.d && !i.img && !i.sz && !i.tag) && g.items.length > 3;
-  const pic = hasPhoto(g.img);
-  const head = (g.t || g.d || pic) ? `<div class="grp-head">
+  const compact = g.items.every(i => !i.d && !i.sz && !i.tag) && g.items.length > 3;
+  const head = (g.t || g.d) ? `<div class="grp-head">
       <div class="grp-text">
         ${g.t ? `<h3 class="sub">${g.star ? '<span class="star" aria-label="Favorito de la casa">★</span>' : ''}${esc(g.t)}</h3>` : ''}
         ${g.d ? `<p class="grp-desc">${esc(g.d)}</p>` : ''}
       </div>
-      ${pic ? thumbHTML(g.img, g.imgAlt || g.t, g.t, `data-zoom-g="${si}-${gi}"`) : ''}
     </div>` : '';
   return `<div class="grp">${head}<div class="items${compact ? ' compact' : ''}">${g.items.map(itemHTML).join('')}</div></div>`;
 }
@@ -639,6 +677,7 @@ function render() {
         </button>
       </h2>
       <div class="cat-panel" id="cp-${sec.id}" role="region" aria-labelledby="cb-${sec.id}" hidden>
+        ${featHTML(sec, si)}
         ${sec.note ? `<p class="sec-note">${esc(sec.note)}</p>` : ''}
         ${sec.groups.map((g, gi) => groupHTML(g, si, gi)).join('')}
       </div>
@@ -735,6 +774,7 @@ function filter(raw) {
       g.hidden = !gn; n += gn;
     });
     const note = $('.sec-note', sec); if (note) note.hidden = !!q;
+    const feat = $('.feat', sec); if (feat) feat.hidden = !!q;
     sec.hidden = !n; hits += n;
     $('.cat-count', sec).textContent = q ? plural(n, 'resultado', 'resultados') : plural(+sec.dataset.total, 'producto', 'productos');
     if (q) setCat(sec, n > 0, entering);
@@ -977,10 +1017,10 @@ $('#waiter').addEventListener('click', e => {
 $('#menu').addEventListener('click', e => {
   const cb = e.target.closest('.cat-btn');
   if (cb) return toggleCat(cb.closest('.cat').id);
-  const z = e.target.closest('[data-zoom]');
-  if (z) { const it = ITEMS[z.dataset.zoom]; return openViewer(it.img, it.label, it.imgAlt); }
+  const fi = e.target.closest('[data-feat-item]');
+  if (fi) return openItem(fi.dataset.featItem);
   const zg = e.target.closest('[data-zoom-g]');
-  if (zg) { const [si, gi] = zg.dataset.zoomG.split('-').map(Number); const g = MENU[si].groups[gi]; return openViewer(g.img, g.t, g.imgAlt); }
+  if (zg) { const [si, gi] = zg.dataset.zoomG.split('-').map(Number); const g = MENU[si].groups[gi], f = FEATURED[MENU[si].id]; return openViewer(g.img, (f && f.cap) || g.t, g.imgAlt); }
   const add = e.target.closest('[data-add]');
   if (add) { const it = ITEMS[add.dataset.add]; return needsSheet(it) ? openItem(it.id) : addLine({ id: it.id, price: it.p }); }
   const art = e.target.closest('.item');
@@ -1010,10 +1050,8 @@ document.addEventListener('error', e => {
   if (img.closest('#hero')) { if (img.classList.contains('hero-logo')) img.remove(); else { $('#hero').classList.add('noimg'); img.remove(); } return; }
   const box = img.closest('[data-imgbox]');
   if (!box) return img.remove();
-  const row = box.closest('.has-img');
-  if (box.contains(document.activeElement)) (row ? $('.add', row) : null)?.focus({ preventScroll: true });
+  if (box.contains(document.activeElement)) { const sec = box.closest('.cat'); (sec ? $('.cat-btn', sec) : $('#itemSheet .x'))?.focus({ preventScroll: true }); }
   box.remove();
-  if (row) row.classList.remove('has-img');
 }, true);
 
 /* Aviso */
