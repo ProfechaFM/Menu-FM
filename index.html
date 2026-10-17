@@ -18,7 +18,7 @@
 /* Layout: una columna de lectura (máx. 760 px). Barra de categorías fija arriba; cada categoría
    es un acordeón (solo una abierta) y su encabezado queda fijo bajo la barra mientras se recorre.
    Al abrir una categoría: como máximo una foto destacada y luego la lista limpia, todas las filas iguales.
-   Las fotos de cada producto se ven grandes en su detalle. */
+   El detalle de cada plato es solo texto (liviano); las fotos se amplían desde la destacada. */
 :root {
   --bg: #F7EFE2;          /* crema del menú impreso */
   --surface: #FFFBF5;
@@ -161,22 +161,13 @@ main { padding-block: 6px 8px; }
   .items.compact > .item:nth-child(2) { border-top: 0; }
 }
 
-/* Foto destacada: una por categoría, entre el encabezado y los subgrupos */
-.feat { display: block; width: 100%; margin: 4px 0 14px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
-.feat-img { display: block; width: 100%; max-width: 100%; height: clamp(160px, 47vw, 190px); border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); }
+/* Foto destacada: una por categoría, entre el encabezado y los subgrupos. Sin pie: solo la marca de referencia */
+.feat { display: block; width: 100%; margin: 4px 0 14px; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+.feat-img { position: relative; display: block; width: 100%; max-width: 100%; height: clamp(160px, 47vw, 190px); border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); }
 .feat-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
 .feat:hover .feat-img img { transform: scale(1.02); }
-.feat figcaption { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; padding: 7px 2px 0; }
-.feat-name { font: italic 700 .98rem/1.3 var(--display); color: var(--ink); }
-.feat-name span { font: 500 .86rem/1.3 var(--ui); font-style: normal; color: var(--muted); }
-.feat-note { font: 500 .8rem/1.3 var(--ui); color: var(--muted); }
-/* En pantallas anchas la foto se mantiene en 4:3 (sin recorte excesivo) y el pie va al lado */
-@media (min-width: 600px) {
-  .feat figure { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 20px; align-items: end; }
-  .feat-img { height: auto; aspect-ratio: 4 / 3; }
-  .feat figcaption { flex-direction: column; align-items: flex-start; gap: 4px; padding: 0 0 6px; }
-  .feat-name { font-size: 1.12rem; }
-}
+.feat .ref-tag { top: 10px; right: 10px; }
+@media (min-width: 600px) { .feat-img { height: 300px; } }
 
 .empty { padding: 36px 0 12px; text-align: center; color: var(--muted); }
 
@@ -205,10 +196,6 @@ body.has-cart .foot { padding-bottom: calc(120px + env(safe-area-inset-bottom, 0
 .sheet-head { display: flex; align-items: flex-start; gap: 12px; }
 .sheet-head h2 { margin: 0; flex: 1; font: 800 1.55rem/1.15 var(--display); color: var(--ink); text-wrap: balance; }
 .x { width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--bg); display: grid; place-items: center; flex: none; }
-.photo { position: relative; display: block; width: 100%; max-width: 100%; aspect-ratio: 1 / 1; max-height: min(58vh, 480px); margin: 0 0 14px; padding: 0; border: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--line-soft); cursor: zoom-in; }
-.photo img { width: 100%; height: 100%; object-fit: cover; }
-.photo .ref-tag { left: 10px; bottom: 10px; }
-.photo .zoom { position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px; border-radius: 50%; background: rgba(20,10,5,.55); color: #FFFFFF; display: grid; place-items: center; }
 .sheet .item-desc { font-size: 1rem; margin-top: 6px; }
 .sheet .when { margin-top: 8px; }
 fieldset { border: 0; margin: 18px 0 0; padding: 0; min-width: 0; }
@@ -363,7 +350,7 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
   <button class="x" type="button" data-vclose aria-label="Cerrar foto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   <figure>
     <img id="vImg" alt="">
-    <figcaption><span id="vCap"></span><small>Imagen de referencia. La presentación puede variar.</small></figcaption>
+    <figcaption><span id="vCap">Imagen de referencia</span><small>La presentación puede variar.</small></figcaption>
   </figure>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -561,9 +548,9 @@ const MENU = [
 
 /* =========================================================
    FOTO DESTACADA POR CATEGORÍA (máximo una)
-   item: id del producto fotografiado (al tocar abre su detalle)
-   group: número de subgrupo cuando la foto es del subgrupo (al tocar se amplía)
-   cap: nombre exacto del plato que aparece en la foto
+   item: id del producto fotografiado · group: número de subgrupo cuando la foto es del subgrupo
+   cap: nombre del plato fotografiado (solo para lectores de pantalla; no se muestra)
+   Al tocar la foto se amplía.
    pos: encuadre (object-position) para que el plato se entienda en formato apaisado
    Categorías sin entrada: se muestra la lista directamente.
    ========================================================= */
@@ -623,21 +610,16 @@ function catHint(sec) {
   return parts.join(' · ');
 }
 /* Foto destacada de una categoría (o nada, si no tiene una adecuada) */
-function featHTML(sec, si) {
-  const f = FEATURED[sec.id]; if (!f) return '';
-  let name, alt, attr, label;
-  if (f.item) {
-    const it = ITEMS[f.item]; if (!it || !hasPhoto(it.img)) return '';
-    name = it.img; alt = it.imgAlt || f.cap; attr = `data-feat-item="${it.id}"`; label = `Ver ${f.cap}`;
-  } else {
-    const g = sec.groups[f.group]; if (!g || !hasPhoto(g.img)) return '';
-    name = g.img; alt = g.imgAlt || f.cap; attr = `data-zoom-g="${si}-${f.group}"`; label = `Ampliar foto: ${f.cap}`;
-  }
-  return `<button class="feat" type="button" ${attr} data-imgbox aria-label="${esc(label)}">
-      <figure style="margin:0">
-        <span class="feat-img"><img src="${imgSrc(name)}" alt="${esc(alt)}" loading="lazy" decoding="async"${f.pos ? ` style="object-position:${f.pos}"` : ''}></span>
-        <figcaption><span class="feat-name"><span>En la foto: </span>${esc(f.cap)}</span><span class="feat-note">Imagen de referencia</span></figcaption>
-      </figure>
+function featPhoto(sec) {
+  const f = FEATURED[sec.id]; if (!f) return null;
+  const src = f.item ? ITEMS[f.item] : sec.groups[f.group];
+  if (!src || !hasPhoto(src.img)) return null;
+  return { name: src.img, alt: src.imgAlt || f.cap, pos: f.pos };
+}
+function featHTML(sec) {
+  const ph = featPhoto(sec); if (!ph) return '';
+  return `<button class="feat" type="button" data-feat="${sec.id}" data-imgbox aria-label="Ampliar foto: ${esc(ph.alt)}">
+      <span class="feat-img"><img src="${imgSrc(ph.name)}" alt="${esc(ph.alt)}" loading="lazy" decoding="async"${ph.pos ? ` style="object-position:${ph.pos}"` : ''}><span class="ref-tag">Imagen de referencia</span></span>
     </button>`;
 }
 function itemHTML(it) {
@@ -677,7 +659,7 @@ function render() {
         </button>
       </h2>
       <div class="cat-panel" id="cp-${sec.id}" role="region" aria-labelledby="cb-${sec.id}" hidden>
-        ${featHTML(sec, si)}
+        ${featHTML(sec)}
         ${sec.note ? `<p class="sec-note">${esc(sec.note)}</p>` : ''}
         ${sec.groups.map((g, gi) => groupHTML(g, si, gi)).join('')}
       </div>
@@ -848,12 +830,11 @@ function closeSheets() {
 
 /* Visor de fotos: imagen completa, sin recortes */
 let viewerFocus = null;
-function openViewer(name, caption, alt) {
+function openViewer(name, alt) {
   if (!hasPhoto(name)) return;
   viewerFocus = document.activeElement;
   const img = $('#vImg');
-  img.src = imgSrc(name); img.alt = alt || caption;
-  $('#vCap').textContent = caption;
+  img.src = imgSrc(name); img.alt = alt || '';
   $('#viewer').hidden = false; syncLock();
   $('#viewer [data-vclose]').focus({ preventScroll: true });
 }
@@ -874,7 +855,6 @@ function openItem(id) {
   const el = $('#itemSheet');
   el.innerHTML = `
     <div class="grab" aria-hidden="true"></div>
-    ${hasPhoto(it.img) ? `<button class="photo" type="button" data-imgbox data-zoom="${it.id}" aria-label="Ampliar foto: ${esc(it.n)}"><img src="${imgSrc(it.img)}" alt="${esc(it.imgAlt || it.n)}"><span class="ref-tag">Imagen de referencia</span><span class="zoom" aria-hidden="true">${ICON.zoom}</span></button>` : ''}
     <div class="sheet-head"><h2 id="isTitle">${it.star ? '<span style="color:var(--corn)">★</span> ' : ''}${esc(it.label)}</h2><button class="x" type="button" data-close aria-label="Cerrar">${ICON.x}</button></div>
     ${it.d ? `<p class="item-desc">${esc(it.d)}</p>` : ''}
     ${it.tag ? `<p class="when${it.hot ? ' hot' : ''}">${it.hot ? '' : ICON.clock}${esc(it.tag)}</p>` : ''}
@@ -910,8 +890,6 @@ $('#itemSheet').addEventListener('change', e => {
 });
 $('#itemSheet').addEventListener('click', e => {
   if (e.target.closest('[data-close]')) return closeSheets();
-  const z = e.target.closest('[data-zoom]');
-  if (z) { const it = ITEMS[z.dataset.zoom]; return openViewer(it.img, it.label, it.imgAlt); }
   const q = e.target.closest('[data-q]');
   if (q) { sel.qty = Math.max(1, Math.min(30, sel.qty + +q.dataset.q)); return updateItemSheet(); }
   if (e.target.closest('#addBtn')) {
@@ -1017,10 +995,8 @@ $('#waiter').addEventListener('click', e => {
 $('#menu').addEventListener('click', e => {
   const cb = e.target.closest('.cat-btn');
   if (cb) return toggleCat(cb.closest('.cat').id);
-  const fi = e.target.closest('[data-feat-item]');
-  if (fi) return openItem(fi.dataset.featItem);
-  const zg = e.target.closest('[data-zoom-g]');
-  if (zg) { const [si, gi] = zg.dataset.zoomG.split('-').map(Number); const g = MENU[si].groups[gi], f = FEATURED[MENU[si].id]; return openViewer(g.img, (f && f.cap) || g.t, g.imgAlt); }
+  const ft = e.target.closest('[data-feat]');
+  if (ft) { const ph = featPhoto(MENU.find(s => s.id === ft.dataset.feat)); return ph && openViewer(ph.name, ph.alt); }
   const add = e.target.closest('[data-add]');
   if (add) { const it = ITEMS[add.dataset.add]; return needsSheet(it) ? openItem(it.id) : addLine({ id: it.id, price: it.p }); }
   const art = e.target.closest('.item');
