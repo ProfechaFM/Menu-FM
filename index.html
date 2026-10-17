@@ -221,6 +221,18 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 .primary { flex: 1; height: 54px; border: 0; border-radius: 16px; background: var(--red); color: var(--red-ink); font: 700 1.05rem/1.1 var(--ui); padding: 0 16px; }
 .primary:disabled { background: var(--line); color: var(--muted); }
 .primary.green { background: var(--green); color: var(--green-ink); }
+.secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 54px; padding: 0 16px; border: 1.5px solid var(--green); border-radius: 16px; background: transparent; color: var(--green); font: 700 1.02rem/1.15 var(--ui); text-align: center; text-decoration: none; flex: none; }
+.secondary:hover { background: color-mix(in srgb, var(--green) 9%, transparent); }
+.secondary.wide { width: 100%; flex: 1; }
+.primary svg, .secondary svg { flex: none; }
+.share-intro { margin: 4px 0 12px; color: var(--muted); font-size: .98rem; line-height: 1.45; }
+.share-prev { display: grid; place-items: center; min-height: 150px; padding: 8px; border-radius: var(--r-md); border: 1px solid var(--line); background: var(--bg); }
+.share-prev img { width: auto; max-width: 100%; max-height: 42vh; max-height: 42dvh; object-fit: contain; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+.share-wait { padding: 20px; text-align: center; color: var(--muted); font-size: .95rem; }
+.share-actions { display: grid; gap: 10px; margin-top: 14px; }
+.share-actions .primary, .share-actions .secondary { width: 100%; flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.copy-box input { width: 100%; height: 44px; border: 1.5px solid var(--line); border-radius: var(--r-md); background: var(--bg); color: var(--ink); font: .9rem var(--ui); padding: 0 12px; }
+.share-note { margin: 12px 0 0; font-size: .88rem; line-height: 1.4; color: var(--muted); }
 .ghost { border: 0; background: transparent; color: var(--muted); font: 500 .95rem/1 var(--ui); padding: 10px 4px; text-decoration: underline; text-underline-offset: 3px; }
 
 /* Pedido */
@@ -237,6 +249,13 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 .line-price { font-weight: 700; font-variant-numeric: lining-nums tabular-nums; text-align: right; }
 .line .stepper { height: 38px; grid-column: 2; justify-self: end; }
 .line .stepper button { width: 36px; }
+.line-tools { grid-column: 1 / -1; }
+.note-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 4px 0; border: 0; background: transparent; color: var(--green); font: 700 .92rem/1.2 var(--ui); }
+.line-edit { display: grid; gap: 8px; margin-top: 2px; }
+.line-edit-actions { display: flex; align-items: center; gap: 12px; }
+.mini { height: 38px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--green); color: var(--green-ink); font: 700 .94rem/1 var(--ui); }
+.w-order-note { margin-top: 14px; padding: 12px 14px; border-radius: var(--r-md); background: var(--info); color: var(--info-ink); font: 500 1.08rem/1.4 var(--ui); }
+.w-order-note strong { font-weight: 700; }
 .totals { margin-top: 14px; display: grid; gap: 6px; font-variant-numeric: lining-nums tabular-nums; }
 .totals div { display: flex; justify-content: space-between; gap: 12px; }
 .totals .muted { color: var(--muted); font-size: .96rem; }
@@ -275,6 +294,9 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 
 /* ---------- Aviso emergente ---------- */
 .toast { position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 90; max-width: calc(100% - 32px); padding: 11px 16px; border-radius: 12px; background: var(--ink); color: var(--bg); font: 700 .96rem/1.3 var(--ui); box-shadow: 0 8px 24px rgba(0,0,0,.25); animation: up .2s ease; }
+
+/* Con una hoja abierta, el aviso va arriba para no tapar botones */
+body.locked .toast { top: calc(14px + var(--safe-top)); bottom: auto; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -345,6 +367,7 @@ textarea, .field input { width: 100%; border: 1.5px solid var(--line); border-ra
 <div class="scrim" id="scrim" hidden></div>
 <section class="sheet" id="itemSheet" role="dialog" aria-modal="true" aria-labelledby="isTitle" hidden></section>
 <section class="sheet" id="orderSheet" role="dialog" aria-modal="true" aria-labelledby="osTitle" hidden></section>
+<section class="sheet" id="shareSheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden></section>
 <section class="waiter" id="waiter" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden></section>
 <div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vCap" hidden>
   <button class="x" type="button" data-vclose aria-label="Cerrar foto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -581,6 +604,9 @@ const ICON = {
   info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.01"/></svg>',
   chev: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>',
   clock: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  share: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>',
+  chat: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12Z"/></svg>',
+  link: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
   zoom: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>',
 };
 
@@ -777,11 +803,12 @@ const KEY = 'lfdm-pedido-v1';
 let cart = [];        // { key, id, label, sub, note, price, qty }
 let mode = 'aqui';    // 'aqui' | 'llevar'
 let ref = '';
+let onote = '';       // comentario para todo el pedido
 try {
   const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-  if (saved && Date.now() - saved.t < 6 * 3600e3) { cart = saved.cart || []; mode = saved.mode || 'aqui'; ref = saved.ref || ''; }
+  if (saved && Date.now() - saved.t < 6 * 3600e3) { cart = saved.cart || []; mode = saved.mode || 'aqui'; ref = saved.ref || ''; onote = saved.onote || ''; }
 } catch (e) {}
-function save() { try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), cart, mode, ref })); } catch (e) {} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify({ t: Date.now(), cart, mode, ref, onote })); } catch (e) {} }
 
 const subtotal = () => cart.reduce((a, l) => a + l.price * l.qty, 0);
 const units = () => cart.reduce((a, l) => a + l.qty, 0);
@@ -823,7 +850,7 @@ function openSheet(el) {
   setTimeout(() => { const f = $('.x', el); f && f.focus({ preventScroll: true }); }, 30);
 }
 function closeSheets() {
-  ['#itemSheet', '#orderSheet'].forEach(s => $(s).hidden = true);
+  ['#itemSheet', '#orderSheet', '#shareSheet'].forEach(s => $(s).hidden = true);
   $('#scrim').hidden = true; syncLock();
   lastFocus && lastFocus.focus && lastFocus.focus({ preventScroll: true });
 }
@@ -889,6 +916,8 @@ $('#itemSheet').addEventListener('change', e => {
   updateItemSheet();
 });
 $('#itemSheet').addEventListener('click', e => {
+  if (e.target.closest('[data-import-yes]')) { const d = pendingShared; pendingShared = null; closeSheets(); return d && applyShared(d); }
+  if (e.target.closest('[data-import-no]')) { pendingShared = null; closeSheets(); return toast('Mantuviste tu pedido'); }
   if (e.target.closest('[data-close]')) return closeSheets();
   const q = e.target.closest('[data-q]');
   if (q) { sel.qty = Math.max(1, Math.min(30, sel.qty + +q.dataset.q)); return updateItemSheet(); }
@@ -906,7 +935,19 @@ $('#itemSheet').addEventListener('click', e => {
 });
 
 /* Hoja del pedido */
-function openOrder() { renderOrder(); openSheet($('#orderSheet')); }
+let editing = null, editDraft = '';   // línea cuya nota se está editando
+function openOrder() { editing = null; renderOrder(); openSheet($('#orderSheet')); }
+/* Guarda la nota de una línea; si queda igual a otra línea (mismo producto, opciones y nota) se juntan */
+function saveLineNote(i, text) {
+  const l = cart[i]; if (!l) return;
+  l.note = text.trim();
+  l.key = [l.id, l.sub, l.note.toLowerCase()].join('|');
+  const j = cart.findIndex((o, k) => k !== i && o.key === l.key);
+  if (j > -1) { cart[j].qty += l.qty; cart.splice(i, 1); }
+  editing = null; editDraft = '';
+  save(); syncCart(false); renderOrder();
+  toast(l.note ? 'Nota guardada' : 'Nota quitada');
+}
 function renderOrder() {
   const el = $('#orderSheet');
   if (!cart.length) { closeSheets(); return; }
@@ -925,8 +966,13 @@ function renderOrder() {
         <div class="line-price">${money(l.price * l.qty)}</div>
         <div class="line-sub">${money(l.price)} c/u</div>
         <div class="stepper"><button type="button" data-l="${i}" data-d="-1" aria-label="Quitar uno de ${esc(l.label)}">${ICON.minus}</button><output>${l.qty}</output><button type="button" data-l="${i}" data-d="1" aria-label="Agregar uno de ${esc(l.label)}">${ICON.plus}</button></div>
+        <div class="line-tools">${editing === i
+          ? `<div class="line-edit"><label class="sr" for="ln-${i}">Nota para ${esc(l.label)}</label><textarea id="ln-${i}" rows="2" maxlength="120" placeholder="Ej.: sin cebolla, natilla aparte">${esc(editDraft)}</textarea>
+             <div class="line-edit-actions"><button class="mini" type="button" data-note-save="${i}">Guardar nota</button><button class="ghost" type="button" data-note-cancel>Cancelar</button></div></div>`
+          : `<button class="note-btn" type="button" data-note-edit="${i}">${l.note ? 'Editar nota' : '+ Agregar nota'}</button>`}</div>
       </li>`).join('')}
     </ul>
+    <div class="field"><label for="onote">Comentario para todo el pedido (opcional)</label><textarea id="onote" rows="2" maxlength="200" placeholder="Ej.: traer todo junto, son para compartir">${esc(onote)}</textarea></div>
     <div class="totals">
       <div class="muted"><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
       ${mode === 'aqui' ? `<div class="muted"><span>10 % servicio restaurante</span><span>${money(srv)}</span></div>` : ''}
@@ -935,15 +981,25 @@ function renderOrder() {
     </div>
     <div class="field"><label for="ref">${mode === 'aqui' ? 'Número de mesa' : 'Nombre para el pedido'} (opcional)</label><input id="ref" value="${esc(ref)}" maxlength="24" ${mode === 'aqui' ? 'inputmode="numeric"' : ''} autocomplete="off"></div>
     <div class="order-actions" id="clearZone"><button class="ghost" type="button" data-clear>Vaciar pedido</button></div>
-    <div class="sheet-foot"><button class="primary green" type="button" data-show>Mostrar al salonero</button></div>`;
+    <div class="sheet-foot"><button class="secondary" type="button" data-share aria-label="Compartir pedido">${ICON.share}<span>Compartir</span></button><button class="primary green" type="button" data-show>Mostrar al salonero</button></div>`;
 }
 $('#orderSheet').addEventListener('click', e => {
   const t = e.target;
   if (t.closest('[data-close]')) return closeSheets();
   const m = t.closest('[data-mode]');
   if (m) { mode = m.dataset.mode; save(); return renderOrder(); }
+  const ne = t.closest('[data-note-edit]');
+  if (ne) {
+    editing = +ne.dataset.noteEdit; editDraft = cart[editing].note || ''; renderOrder();
+    const ta = $(`#ln-${editing}`); if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    return;
+  }
+  const ns = t.closest('[data-note-save]');
+  if (ns) { const i = +ns.dataset.noteSave; return saveLineNote(i, $(`#ln-${i}`).value); }
+  if (t.closest('[data-note-cancel]')) { const i = editing; editing = null; editDraft = ''; renderOrder(); $(`[data-note-edit="${i}"]`)?.focus(); return; }
   const s = t.closest('[data-l]');
   if (s) {
+    editing = null;
     const l = cart[+s.dataset.l]; l.qty += +s.dataset.d;
     if (l.qty <= 0) cart.splice(+s.dataset.l, 1);
     save(); syncCart(false);
@@ -954,10 +1010,15 @@ $('#orderSheet').addEventListener('click', e => {
     return;
   }
   if (t.closest('[data-clear-no]')) return renderOrder();
-  if (t.closest('[data-clear-yes]')) { cart = []; save(); syncCart(false); closeSheets(); return toast('Pedido vaciado'); }
+  if (t.closest('[data-clear-yes]')) { cart = []; onote = ''; editing = null; save(); syncCart(false); closeSheets(); return toast('Pedido vaciado'); }
+  if (t.closest('[data-share]')) return openShare();
   if (t.closest('[data-show]')) return showWaiter();
 });
-$('#orderSheet').addEventListener('input', e => { if (e.target.id === 'ref') { ref = e.target.value; save(); } });
+$('#orderSheet').addEventListener('input', e => {
+  if (e.target.id === 'ref') { ref = e.target.value; save(); }
+  else if (e.target.id === 'onote') { onote = e.target.value; save(); }
+  else if (e.target.id.startsWith('ln-')) editDraft = e.target.value;
+});
 
 /* Vista para el salonero */
 let wake = null;
@@ -971,6 +1032,7 @@ function showWaiter() {
     <h2 id="wTitle">Pedido a ordenar</h2>
     <div class="meta">${mode === 'aqui' ? 'Comer aquí' : 'Para llevar'}${ref ? ` · ${mode === 'aqui' ? 'Mesa' : 'Nombre'}: <strong>${esc(ref)}</strong>` : ''} · ${units()} producto${units() === 1 ? '' : 's'} · ${esc(hh)}</div>
     <ul class="w-list">${cart.map(l => `<li><span class="w-qty">${l.qty}</span><span class="w-name">${esc(l.label)}</span>${l.sub ? `<span class="w-sub">${esc(l.sub)}</span>` : ''}${l.note ? `<span class="w-note">Nota: ${esc(l.note)}</span>` : ''}</li>`).join('')}</ul>
+    ${onote.trim() ? `<div class="w-order-note"><strong>Comentario del pedido:</strong> ${esc(onote.trim())}</div>` : ''}
     <div class="w-total">
       <div><span>Subtotal (IVA incluido)</span><span>${money(sub)}</span></div>
       ${srv ? `<div><span>10 % servicio restaurante</span><span>${money(srv)}</span></div>` : ''}
@@ -991,6 +1053,227 @@ $('#waiter').addEventListener('click', e => {
   if (e.target.closest('[data-back]')) { closeWaiter(); renderOrder(); $('#orderSheet [data-show]')?.focus({ preventScroll: true }); }
 });
 
+/* =========================================================
+   COMPARTIR PEDIDO: foto del pedido + enlace para abrirlo y editarlo
+   El pedido viaja dentro del enlace (?pedido=…); no se guarda en ningún servidor.
+   Los precios no viajan en el enlace: se toman siempre del menú vigente.
+   ========================================================= */
+/* WhatsApp del restaurante (a futuro). Formato: 506 + número, sin espacios, ej. '50688887777'.
+   Vacío = el botón "Enviar al restaurante" no aparece. */
+const RESTAURANT_WHATSAPP = '';
+
+const b64e = s => { let bin = ''; new TextEncoder().encode(s).forEach(b => bin += String.fromCharCode(b)); return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
+const b64d = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0)));
+
+/* Una línea del pedido → [id, cantidad, índices de tamaño/opciones, nota] */
+function lineToCode(l) {
+  const it = ITEMS[l.id]; const parts = l.sub ? l.sub.split(' · ') : []; const idx = []; let k = 0;
+  if (it.sz) idx.push(it.sz.findIndex(s => s[0] === parts[k++]));
+  (it.op || []).forEach(([, o]) => idx.push(o.indexOf(parts[k++])));
+  return [l.id, l.qty, idx, l.note || ''];
+}
+/* Y de vuelta, validando contra el menú (si algo no existe, la línea se descarta) */
+function codeToLine(row) {
+  if (!Array.isArray(row)) return null;
+  const [id, qty, idx = [], note = ''] = row; const it = ITEMS[id]; if (!it) return null;
+  const parts = []; let k = 0, price = it.p;
+  if (it.sz) { const s = it.sz[idx[k++]]; if (!s) return null; parts.push(s[0]); price = s[1]; }
+  for (const [, o] of (it.op || [])) { const v = o[idx[k++]]; if (v == null) return null; parts.push(v); }
+  const n = String(note).slice(0, 120).trim(), sub = parts.join(' · ');
+  return { key: [id, sub, n.toLowerCase()].join('|'), id, label: it.label, sub, note: n, price, qty: Math.max(1, Math.min(99, parseInt(qty, 10) || 1)) };
+}
+function encodeOrder() { return b64e(JSON.stringify({ v: 1, m: mode, r: ref.trim(), n: onote.trim(), c: cart.map(lineToCode) })); }
+function decodeOrder(code) {
+  try {
+    const d = JSON.parse(b64d(code)); if (!d || !Array.isArray(d.c)) return null;
+    const out = [];
+    for (const row of d.c.slice(0, 80)) {
+      const l = codeToLine(row); if (!l) continue;
+      const ex = out.find(o => o.key === l.key); if (ex) ex.qty = Math.min(99, ex.qty + l.qty); else out.push(l);
+    }
+    return { cart: out, mode: d.m === 'llevar' ? 'llevar' : 'aqui', ref: String(d.r || '').slice(0, 24), onote: String(d.n || '').slice(0, 200) };
+  } catch (e) { return null; }
+}
+const shareLink = () => `${location.href.split('#')[0].split('?')[0]}?pedido=${encodeOrder()}`;
+const nowLabel = () => { const d = new Date(); return `${d.toLocaleDateString('es-CR', { day: 'numeric', month: 'short' })} · ${d.toLocaleTimeString('es-CR', { hour: 'numeric', minute: '2-digit' })}`; };
+const orderMeta = () => `${mode === 'aqui' ? 'Comer aquí' : 'Para llevar'}${ref.trim() ? ` · ${mode === 'aqui' ? 'Mesa' : 'Nombre'}: ${ref.trim()}` : ''}`;
+/* Texto que acompaña la foto (y que se envía solo cuando se usa el enlace de WhatsApp) */
+function shareText(link) {
+  const sub = subtotal(), srv = service();
+  const rows = cart.map(l => `${l.qty} × ${l.label}${l.sub ? ` (${l.sub})` : ''}${l.note ? ` — Nota: ${l.note}` : ''}`);
+  return [
+    'Pedido para alistar · La Fiesta del Maíz', orderMeta(), '', ...rows,
+    ...(onote.trim() ? ['', `Comentario: ${onote.trim()}`] : []),
+    '', `Total estimado: ${money(sub + srv)}${srv ? ' (incluye 10 % servicio restaurante)' : ''}`,
+    'Lista de referencia: todavía no es un pedido confirmado.', '', `Ver o editar el pedido: ${link}`,
+  ].join('\n').replace(/ /g, ' ');
+}
+
+/* ---------- Foto del pedido (canvas, siempre con la paleta clara) ---------- */
+const IMGC = { bg: '#F7EFE2', card: '#FFFBF5', ink: '#33231A', muted: '#776151', line: '#E4D3BD', red: '#B5302A', green: '#3E6131', greenInk: '#FFF8EE', info: '#FAEACB', infoInk: '#574000' };
+const IMGF = {
+  d: (w, s) => `${w} ${s}px Alegreya, Georgia, "Times New Roman", serif`,
+  di: (w, s) => `italic ${w} ${s}px Alegreya, Georgia, "Times New Roman", serif`,
+  u: (w, s) => `${w} ${s}px "Alegreya Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`,
+};
+function loadImg(src) { return new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; }); }
+function wrapText(c, text, maxW) {
+  const words = String(text).split(/\s+/).filter(Boolean), out = []; let cur = '';
+  for (const w of words) { const t = cur ? cur + ' ' + w : w; if (!cur || c.measureText(t).width <= maxW) cur = t; else { out.push(cur); cur = w; } }
+  if (cur) out.push(cur); return out;
+}
+function rr(c, x, y, w, h, r) { c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); }
+async function renderOrderImage() {
+  try { await document.fonts.ready; } catch (e) {}
+  const logo = hasPhoto('logo') ? await loadImg(imgSrc('logo')) : null;
+  const W = 1080, P = 64, inner = W - P * 2, m = document.createElement('canvas').getContext('2d');
+  const ops = []; let y = P + 14;
+  const txt = (font, color, s, x, yy, align = 'left') => ops.push(c => { c.font = font; c.fillStyle = color; c.textAlign = align; c.fillText(s, x, yy); });
+  const box = (color, x, yy, w, h, r) => ops.push(c => { c.fillStyle = color; rr(c, x, yy, w, h, r); c.fill(); });
+  const rule = yy => ops.push(c => { c.fillStyle = IMGC.line; c.fillRect(P, yy, inner, 2); });
+  const plain = s => String(s).replace(/ /g, ' ');
+  // Encabezado
+  const lx = logo ? P + 150 + 30 : P;
+  if (logo) { const ly = y; ops.push(c => c.drawImage(logo, P, ly, 150, 150)); }
+  txt(IMGF.d(800, 60), IMGC.red, 'Pedido para alistar', lx, y + 66);
+  txt(IMGF.u(500, 30), IMGC.muted, 'La Fiesta del Maíz · Cocina típica costarricense', lx, y + 108);
+  txt(IMGF.u(700, 29), IMGC.ink, `${orderMeta()} · ${nowLabel()}`, lx, y + 146);
+  y += 150 + 34; rule(y); y += 30;
+  // Productos
+  const nameW = inner - 92 - 220;
+  for (const l of cart) {
+    const top = y; let yy = y + 42;
+    box(IMGC.green, P, top, 66, 66, 16);
+    txt(IMGF.u(700, 34), IMGC.greenInk, String(l.qty), P + 33, top + 45, 'center');
+    txt(IMGF.u(700, 36), IMGC.ink, plain(money(l.price * l.qty)), W - P, top + 44, 'right');
+    if (l.qty > 1) txt(IMGF.u(500, 25), IMGC.muted, plain(`${money(l.price)} c/u`), W - P, top + 80, 'right');
+    m.font = IMGF.d(700, 38); for (const s of wrapText(m, l.label, nameW)) { txt(IMGF.d(700, 38), IMGC.ink, s, P + 92, yy); yy += 46; }
+    if (l.sub) { m.font = IMGF.u(500, 30); for (const s of wrapText(m, l.sub, nameW)) { txt(IMGF.u(500, 30), IMGC.muted, s, P + 92, yy - 4); yy += 38; } }
+    if (l.note) { m.font = IMGF.di(700, 30); for (const s of wrapText(m, `Nota: ${l.note}`, nameW)) { txt(IMGF.di(700, 30), IMGC.ink, s, P + 92, yy - 4); yy += 38; } }
+    y = Math.max(top + 66, yy - 30, l.qty > 1 ? top + 86 : 0) + 26; rule(y); y += 28;
+  }
+  // Comentario del pedido
+  if (onote.trim()) {
+    m.font = IMGF.u(500, 30); const lines = wrapText(m, onote.trim(), inner - 56); const h = 64 + lines.length * 40 + 12;
+    box(IMGC.info, P, y, inner, h, 20);
+    txt(IMGF.u(700, 27), IMGC.infoInk, 'Comentario del pedido', P + 28, y + 44);
+    lines.forEach((s, i) => txt(IMGF.u(500, 30), IMGC.infoInk, s, P + 28, y + 88 + i * 40));
+    y += h + 30;
+  }
+  // Totales
+  const sub = subtotal(), srv = service();
+  txt(IMGF.u(500, 31), IMGC.muted, 'Subtotal (IVA incluido)', P, y + 30); txt(IMGF.u(500, 31), IMGC.muted, plain(money(sub)), W - P, y + 30, 'right'); y += 48;
+  if (srv) { txt(IMGF.u(500, 31), IMGC.muted, '10 % servicio restaurante', P, y + 30); txt(IMGF.u(500, 31), IMGC.muted, plain(money(srv)), W - P, y + 30, 'right'); y += 48; }
+  ops.push((yy => c => { c.fillStyle = IMGC.ink; c.fillRect(P, yy, inner, 3); })(y + 6)); y += 22;
+  txt(IMGF.d(800, 46), IMGC.ink, 'Total estimado', P, y + 46); txt(IMGF.u(700, 46), IMGC.ink, plain(money(sub + srv)), W - P, y + 46, 'right'); y += 82;
+  // Aviso
+  m.font = IMGF.u(500, 27);
+  const note = wrapText(m, 'Lista de referencia: todavía no es un pedido confirmado ni se envió a la cocina. El monto final lo confirma la caja.', inner - 56);
+  m.font = IMGF.u(700, 27);
+  const edit = wrapText(m, 'Para ver o editar este pedido, abrí el enlace que viene con esta foto.', inner - 56);
+  const hb = 40 + (note.length + edit.length) * 37 + 18;
+  box(IMGC.card, P, y, inner, hb, 20);
+  note.forEach((s, i) => txt(IMGF.u(500, 27), IMGC.muted, s, P + 28, y + 52 + i * 37));
+  edit.forEach((s, i) => txt(IMGF.u(700, 27), IMGC.green, s, P + 28, y + 52 + (note.length + i) * 37 + 6));
+  y += hb + 34;
+  txt(IMGF.u(500, 24), IMGC.muted, location.host || 'La Fiesta del Maíz', W / 2, y + 10, 'center'); y += 10;
+  // Dibujo final
+  const H = Math.ceil(y + P), cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const c = cv.getContext('2d'); c.fillStyle = IMGC.bg; c.fillRect(0, 0, W, H); c.fillStyle = IMGC.red; c.fillRect(0, 0, W, 14); c.textBaseline = 'alphabetic';
+  ops.forEach(op => op(c));
+  return new Promise((res, rej) => { try { cv.toBlob(b => b ? res(b) : rej(new Error('blob')), 'image/png'); } catch (e) { rej(e); } });
+}
+
+/* ---------- Hoja "Compartir pedido" ---------- */
+let shareBlob = null, shareURL = null;
+const FILE_NAME = 'pedido-fiesta-del-maiz.png';
+function canShareFiles() { try { return !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], FILE_NAME, { type: 'image/png' })] })); } catch (e) { return false; } }
+function releaseShare() { if (shareURL) URL.revokeObjectURL(shareURL); shareURL = null; shareBlob = null; }
+async function openShare() {
+  if (!cart.length) return;
+  closeSheets(); releaseShare();
+  const link = shareLink(), text = shareText(link), files = canShareFiles(), el = $('#shareSheet');
+  el._link = link; el._text = text;
+  el.innerHTML = `
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head"><h2 id="shTitle">Compartir pedido</h2><button class="x" type="button" data-close aria-label="Cerrar">${ICON.x}</button></div>
+    <p class="share-intro">Enviá la foto del pedido a quien quieras, o a la caja. Con el enlace, la otra persona puede abrirlo, cambiarlo y volver a compartirlo.</p>
+    <div class="share-prev" id="shPrev"><span class="share-wait">Preparando la foto…</span></div>
+    <div class="share-actions">
+      <button class="primary green" type="button" data-sh-img disabled>${ICON.share}<span>${files ? 'Enviar foto y enlace' : 'Descargar foto'}</span></button>
+      <a class="secondary" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${ICON.chat}<span>Enviar por WhatsApp (texto y enlace)</span></a>
+      ${RESTAURANT_WHATSAPP ? `<a class="secondary" href="https://wa.me/${RESTAURANT_WHATSAPP}?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">${ICON.chat}<span>Enviar al restaurante por WhatsApp</span></a>` : ''}
+      <button class="secondary" type="button" data-sh-copy>${ICON.link}<span>Copiar enlace para editar</span></button>
+      <div class="copy-box" id="shCopy" hidden><label for="shLink" class="sr">Enlace del pedido</label><input id="shLink" readonly value="${esc(link)}"></div>
+    </div>
+    <p class="share-note">${files ? 'Si tu app envía solo la foto, usá «Copiar enlace» para mandar también el enlace. ' : ''}Compartir no envía el pedido a la cocina.</p>
+    <div class="sheet-foot"><button class="secondary wide" type="button" data-sh-back>Volver a mi pedido</button></div>`;
+  openSheet(el);
+  try {
+    shareBlob = await renderOrderImage(); shareURL = URL.createObjectURL(shareBlob);
+    if (el.hidden) return releaseShare();
+    $('#shPrev').innerHTML = `<img src="${shareURL}" alt="Foto del pedido para compartir">`;
+    $('[data-sh-img]', el).disabled = false;
+  } catch (e) {
+    $('#shPrev').innerHTML = `<span class="share-wait">No se pudo preparar la foto en este teléfono. Podés enviar el enlace por WhatsApp o copiarlo.</span>`;
+    $('[data-sh-img]', el).hidden = true;
+  }
+}
+function downloadShare() {
+  if (!shareURL) return;
+  const a = document.createElement('a'); a.href = shareURL; a.download = FILE_NAME; document.body.appendChild(a); a.click(); a.remove();
+  toast('Foto guardada. Adjuntala en tu app de mensajes.');
+}
+async function sendShareImage() {
+  const el = $('#shareSheet'); if (!shareBlob) return;
+  const file = new File([shareBlob], FILE_NAME, { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], text: el._text, title: 'Pedido · La Fiesta del Maíz' }); }
+    catch (e) { if (e && e.name !== 'AbortError') downloadShare(); }
+  } else downloadShare();
+}
+function copyShareLink() {
+  const el = $('#shareSheet'), link = el._link;
+  const fallback = () => { $('#shCopy').hidden = false; const i = $('#shLink'); i.focus(); i.select(); toast('Seleccioná y copiá el enlace'); };
+  try { navigator.clipboard.writeText(link).then(() => toast('Enlace copiado'), fallback); } catch (e) { fallback(); }
+}
+$('#shareSheet').addEventListener('click', e => {
+  if (e.target.closest('[data-close]')) { releaseShare(); return closeSheets(); }
+  if (e.target.closest('[data-sh-back]')) { releaseShare(); closeSheets(); return openOrder(); }
+  if (e.target.closest('[data-sh-img]')) return sendShareImage();
+  if (e.target.closest('[data-sh-copy]')) return copyShareLink();
+});
+
+/* ---------- Abrir un pedido compartido (?pedido=…) ---------- */
+let pendingShared = null;
+function applyShared(d) {
+  cart = d.cart; mode = d.mode; ref = d.ref; onote = d.onote; editing = null;
+  save(); syncCart(false); openOrder();
+  toast('Abriste un pedido compartido. Podés cambiarlo y volver a compartirlo.');
+}
+function importShared() {
+  let code = null;
+  try { code = new URLSearchParams(location.search).get('pedido'); } catch (e) {}
+  if (!code) return;
+  try { history.replaceState(null, '', location.href.split('?')[0]); } catch (e) {}
+  const d = decodeOrder(code);
+  if (!d || !d.cart.length) return toast('No pudimos abrir ese pedido compartido.');
+  if (!cart.length) return applyShared(d);
+  pendingShared = d;
+  const el = $('#itemSheet'); el._groups = [];
+  const n = d.cart.reduce((a, l) => a + l.qty, 0);
+  el.innerHTML = `
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head"><h2 id="isTitle">Abriste un pedido compartido</h2><button class="x" type="button" data-close aria-label="Cerrar">${ICON.x}</button></div>
+    <p class="item-desc">Trae ${plural(n, 'producto', 'productos')}. En este teléfono ya tenés un pedido con ${plural(units(), 'producto', 'productos')}. ¿Cuál querés usar?</p>
+    <div class="share-actions">
+      <button class="primary green" type="button" data-import-yes>Usar el pedido compartido</button>
+      <button class="secondary" type="button" data-import-no>Mantener el mío</button>
+    </div>
+    <div class="sheet-foot" style="border:0"></div>`;
+  openSheet(el);
+}
+
 /* ---------- Interacciones del menú ---------- */
 $('#menu').addEventListener('click', e => {
   const cb = e.target.closest('.cat-btn');
@@ -1004,12 +1287,13 @@ $('#menu').addEventListener('click', e => {
 });
 $('#chips').addEventListener('click', e => { const c = e.target.closest('[data-go]'); if (c) goToCat(c.dataset.go); });
 $('#openOrder').addEventListener('click', openOrder);
-$('#scrim').addEventListener('click', closeSheets);
+$('#scrim').addEventListener('click', () => { if (!$('#shareSheet').hidden) releaseShare(); closeSheets(); });
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
   if (!$('#viewer').hidden) return closeViewer();
   if (!$('#waiter').hidden) return closeWaiter();
-  if (!$('#itemSheet').hidden || !$('#orderSheet').hidden) closeSheets();
+  if (!$('#shareSheet').hidden) releaseShare();
+  if (!$('#itemSheet').hidden || !$('#orderSheet').hidden || !$('#shareSheet').hidden) closeSheets();
 });
 
 /* Búsqueda */
@@ -1038,6 +1322,7 @@ function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = fal
 render(); syncCart(false); measureNav(); syncNav();
 if ('ResizeObserver' in window) new ResizeObserver(measureNav).observe($('#nav'));
 else window.addEventListener('resize', measureNav);
+importShared();
 (() => { const h = decodeURIComponent(location.hash.slice(1)); const sec = h && catEl(h); if (sec && sec.classList.contains('cat')) goToCat(h); })();
 </script>
 </body>
